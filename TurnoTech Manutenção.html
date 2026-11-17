@@ -3,423 +3,392 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TurnoTech Manutenção - Relatório de Turno</title>
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>TurnoTech Manutenção</title>
 <style>
   :root {
     --bg: #000000;
-    --card: #121212;
-    --card-2: #18181b;
-    --border: #262626;
-    --text: #fafafa;
+    --card: #111317;
+    --card-2: #181b20;
+    --border: #27272a;
+    --yellow: #facc15;
+    --yellow-dark: #eab308;
+    --text: #ffffff;
     --muted: #a1a1aa;
-    --primary: #facc15;
-    --primary-hover: #eab308;
-    --primary-hi: #fde047;
-    --on-primary: #09090b;
-    --whatsapp: #16a34a;
-    --danger: #ef4444;
-    --radius: 14px;
+    --green: #22c55e;
+    --red: #ef4444;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
+    margin: 0; padding: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.45;
-    overflow-x: hidden;
-    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
   }
-  .app {
-    max-width: 520px;
+  .wrap {
+    max-width: 600px;
     margin: 0 auto;
-    padding-bottom: 32px;
+    padding: 12px 14px 96px;
   }
-  /* Cabeçalho Fixo */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 14px 0;
-  }
-  .top-row {
+  .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 8px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
   }
-  .brand {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-text { display: flex; flex-direction: column; }
+  .brand-title {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    color: #fff;
+    line-height: 1.1;
   }
-  .brand-logo svg {
-    display: block;
-    height: 48px;
-    width: auto;
+  .brand-title span { color: var(--yellow); }
+  .brand-sub {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-top: 2px;
   }
-  .controls {
-    display: flex;
-    gap: 6px;
-    align-items: center;
+  .top-actions { display: flex; align-items: center; gap: 6px; }
+  .status-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
   }
-  select, input[type="date"], input[type="text"], input[type="password"], textarea {
+  .status-pill.ready {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+    border-color: rgba(34, 197, 94, 0.4);
+  }
+  .icon-btn {
     background: var(--card-2);
-    color: var(--text);
+    color: var(--yellow);
     border: 1px solid var(--border);
     border-radius: 10px;
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-    transition: border-color .15s;
-  }
-  select:focus, input:focus, textarea:focus {
-    border-color: var(--primary);
-  }
-  .controls select {
-    padding: 8px 9px;
-    font-size: 13px;
-    font-weight: 700;
-    max-width: 152px;
-  }
-  .controls input[type="date"] {
-    padding: 7px 8px;
+    padding: 7px 10px;
     font-size: 12px;
-    width: 116px;
-    color-scheme: dark;
-  }
-  /* Abas */
-  nav.tabs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-  }
-  .tab-btn {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--muted);
-    font-size: 13px;
     font-weight: 700;
-    padding: 10px 4px;
     cursor: pointer;
-    transition: all .15s;
   }
-  .tab-btn.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-  }
-  /* Conteúdo e Cartões */
-  main { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
-  .hidden { display: none !important; }
+  .icon-btn:active { transform: scale(0.97); }
   .card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75);
-  }
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    gap: 8px;
-  }
-  .step-title {
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--primary);
-  }
-  .link-btn {
-    background: rgba(250, 204, 21, 0.12);
-    color: var(--primary-hi);
-    border: 1px solid rgba(250, 204, 21, 0.35);
-    border-radius: 8px;
-    padding: 5px 9px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  /* Botões de Voz */
-  .voice-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    border: 1px solid var(--border);
-    background: var(--card-2);
-    color: var(--text);
-    border-radius: 11px;
-    padding: 11px 10px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform .08s, background .15s, border-color .15s;
-  }
-  .btn:active { transform: scale(0.98); }
-  .btn-voice { font-size: 12px; padding: 10px 6px; flex-direction: column; gap: 4px; text-align: center; }
-  .btn-voice:hover { border-color: rgba(250, 204, 21, 0.45); }
-  .btn-voice.recording {
-    background: rgba(239, 68, 68, 0.18);
-    border-color: var(--danger);
-    color: #fca5a5;
-    animation: pulse 1.2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
-    50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    border-color: var(--primary-hi);
-    color: var(--on-primary);
-    font-weight: 800;
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-whatsapp {
-    background: var(--whatsapp);
-    border-color: #22c55e;
-    color: #fff;
-    padding: 12px;
-    font-size: 14px;
-  }
-  .btn-danger-outline {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: #fca5a5;
-    width: 100%;
-    padding: 11px;
-  }
-  textarea {
-    width: 100%;
-    padding: 11px 12px;
-    resize: vertical;
-    min-height: 78px;
-    line-height: 1.4;
-  }
-  .status-line {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 6px;
-    min-height: 16px;
-  }
-  /* Grade 3x3 de Áreas */
-  .area-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .area-chip {
-    background: var(--card-2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 10px;
-    padding: 11px 6px;
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-    cursor: pointer;
-    word-break: break-word;
-    transition: all .15s;
-  }
-  .area-chip.selected {
-    background: rgba(250, 204, 21, 0.18);
-    border-color: var(--primary);
-    color: var(--primary-hi);
-    box-shadow: 0 0 0 1px var(--primary);
-  }
-  .tag-hint {
-    margin-top: 9px;
-    font-size: 11px;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .action-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  /* Aba Lista */
-  .group-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .group-title {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-  }
-  .occ-item {
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(38, 38, 38, 0.85);
-  }
-  .occ-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .occ-text {
-    font-size: 14px;
-    color: var(--text);
-    margin-bottom: 8px;
-    white-space: pre-wrap;
-  }
-  .occ-btns { display: flex; gap: 8px; }
-  .btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
-  .empty-state {
-    text-align: center;
-    color: var(--muted);
-    padding: 28px 14px;
-    font-size: 14px;
-  }
-  /* Aba Relatório */
-  .field-group { margin-bottom: 10px; }
-  .field-group label {
-    display: block;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    font-weight: 600;
-  }
-  .field-group input { width: 100%; padding: 10px 11px; }
-  .row-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; }
-  .report-box {
-    background: #050505;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #f4f4f5;
-    white-space: pre-wrap;
-    word-break: break-word;
+    border-radius: 14px;
+    padding: 13px;
     margin-bottom: 12px;
   }
-  .export-grid {
+  .sec-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 9px;
+  }
+  .sec-label small {
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  /* Modais */
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    z-index: 50;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 12px;
+  label.fld-lbl {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 4px;
   }
-  .modal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+  select, input[type="date"], input[type="text"], input[type="password"], textarea {
     width: 100%;
-    max-width: 500px;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 16px;
-  }
-  .modal-section {
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
-    margin-top: 12px;
-  }
-  .area-manage-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 8px 0;
-  }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--card-2);
+    background: #090a0d;
+    color: #ffffff;
     border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 5px 10px;
-    font-size: 12px;
+    border-radius: 10px;
+    padding: 10px 11px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
   }
-  .pill button {
-    background: none;
-    border: none;
-    color: #f87171;
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--yellow);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 82px;
+  }
+  .area-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .area-btn {
+    background: #090a0d;
+    color: #e4e4e7;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    line-height: 1.2;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .area-btn.active {
+    background: var(--yellow);
+    color: #000000;
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.25);
+  }
+  .voice-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-voice {
+    background: var(--card-2);
+    color: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #18181b;
-    color: var(--primary-hi);
-    border: 1px solid var(--primary);
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 13px;
+  .btn-voice.recording {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: var(--red);
+    color: #fca5a5;
+  }
+  .btn-primary {
+    width: 100%;
+    margin-top: 10px;
+    background: var(--yellow);
+    color: #000000;
+    border: none;
+    border-radius: 11px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+  }
+  .btn-primary:active { background: var(--yellow-dark); transform: scale(0.99); }
+  .hint-box {
+    margin-top: 7px;
+    font-size: 11px;
+    color: var(--muted);
+    min-height: 16px;
+  }
+  .hint-box.ok { color: var(--green); font-weight: 600; }
+  .hint-box.warn { color: var(--yellow); font-weight: 600; }
+  .occ-group { margin-bottom: 10px; }
+  .occ-group-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .occ-item {
+    background: #090a0d;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--yellow);
+    border-radius: 9px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .occ-text {
+    font-size: 13.5px;
+    color: #f4f4f5;
+    word-break: break-word;
+    flex: 1;
+  }
+  .occ-acts { display: flex; gap: 4px; flex-shrink: 0; }
+  .mini-btn {
+    background: var(--card-2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 4px 7px;
+    font-size: 11px;
     font-weight: 700;
-    z-index: 60;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    cursor: pointer;
+  }
+  .mini-btn.del { color: #f87171; }
+  .preview-box {
+    background: #090a0d;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12.5px;
+    color: #e4e4e7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .bottom-bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.94);
+    border-top: 1px solid var(--border);
+    padding: 10px 14px;
+    z-index: 50;
+  }
+  .bottom-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 8px;
+  }
+  .btn-copy {
+    background: var(--card-2);
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    border-radius: 11px;
+    padding: 12px 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .btn-wpp {
+    background: #22c55e;
+    color: #000000;
+    border: none;
+    border-radius: 11px;
+    padding: 12px 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-bg.open { display: flex; }
+  .modal-card {
+    background: var(--card);
+    border: 1px solid var(--yellow);
+    border-radius: 14px;
+    padding: 16px;
+    width: 100%;
+    max-width: 460px;
+  }
+  .modal-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+  .modal-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .modal-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: flex-end;
+  }
+  .nojs-warn {
+    background: #7f1d1d;
+    color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 700;
   }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- CABEÇALHO SUPERIOR FIXO -->
-  <header>
-    <div class="top-row">
-      <div class="brand" aria-label="TurnoTech Manutenção">
-        <div class="brand-logo">
-          <svg viewBox="0 0 180 122" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo TurnoTech Manutenção">
-            <defs>
-              <path id="gearTextArc" d="M 54 67 A 36 36 0 0 1 88 23" />
-            </defs>
-            <!-- Meia engrenagem amarela à direita -->
-            <path d="M 90 12 L 97 12 L 99 20 C 103 21 107 22 110 24 L 117 19 L 124 25 L 120 33 C 123 36 125 40 126 44 L 134 45 L 134 55 L 126 57 C 125 61 123 65 120 68 L 124 75 L 117 82 L 110 77 C 107 79 103 80 99 81 L 97 89 L 87 89 L 85 81 C 82 80 79 79 76 78 L 83 70 C 86 71 89 71 92 71 C 105 71 116 61 116 48 C 116 35 105 25 92 25 L 90 25 Z" fill="#FACC15"/>
-            <!-- Texto curvado "TurnoTech" na borda superior esquerda -->
-            <text fill="#FACC15" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="13.5" letter-spacing="0.4">
-              <textPath href="#gearTextArc" startOffset="2%">TurnoTech</textPath>
-            </text>
-            <!-- Chave de boca inclinada a 45° no centro -->
-            <g transform="translate(80, 56) rotate(-45)">
-              <rect x="-42" y="-6.5" width="44" height="13" rx="6.5" fill="#FACC15"/>
-              <rect x="-35" y="-2" width="29" height="4" rx="2" fill="#000000"/>
-              <path d="M -2 -12 C 6 -15 16 -12 19 -5 L 8 -5 L 5 0 L 8 5 L 19 5 C 16 12 6 15 -2 12 C -6 9 -7 4 -7 0 C -7 -4 -6 -9 -2 -12 Z" fill="#FACC15"/>
-            </g>
-            <!-- Palavra MANUTENÇÃO abaixo -->
-            <text x="90" y="112" text-anchor="middle" fill="#FACC15" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="20.5" letter-spacing="1.2">MANUTENÇÃO</text>
-          </svg>
-        </div>
+<div class="wrap">
+  <noscript>
+    <div class="nojs-warn">
+      ⚠️ Este visualizador bloqueou o JavaScript. Toque nos 3 pontinhos (⋮) e escolha "Abrir no Google Chrome" para o aplicativo funcionar.
+    </div>
+  </noscript>
+
+  <div class="topbar">
+    <div class="brand">
+      <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="44" height="44" rx="11" fill="#FACC15"/>
+        <path d="M24 11L26.2 14.3L30.1 13.5L30.6 17.4L34.3 18.8L32.8 22.5L35 25.8L31.8 28.2L32.2 32.1L28.3 32.7L26.6 36.3L23.1 34.7L19.6 36.3L17.9 32.7L14 32.1L14.4 28.2L11.2 25.8L13.4 22.5L11.9 18.8L15.6 17.4L16.1 13.5L20 14.3L22.2 11H24Z" fill="#000000"/>
+        <circle cx="23.1" cy="24" r="5.2" fill="#FACC15"/>
+        <circle cx="23.1" cy="24" r="2.2" fill="#000000"/>
+      </svg>
+      <div class="brand-text">
+        <div class="brand-title">Turno<span>Tech</span></div>
+        <div class="brand-sub">MANUTENÇÃO</div>
       </div>
-      <div class="controls">
-        <select id="shiftSelect" aria-label="Selecionar Turno">
+    </div>
+    <div class="top-actions">
+      <span id="jsBadge" class="status-pill">● CARREGANDO</span>
+      <button type="button" class="icon-btn" id="btnOpenSettings">⚙️ Voz IA</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Identificação do Turno</span>
+      <small id="countBadge">0 ocorrências</small>
+    </div>
+    <div class="row-2">
+      <div>
+        <label class="fld-lbl" for="selTurno">Turno</label>
+        <select id="selTurno">
           <option value="Turno A1">Turno A1</option>
           <option value="Turno A2">Turno A2</option>
           <option value="Turno B1">Turno B1</option>
@@ -427,1052 +396,786 @@
           <option value="Acabamento">Acabamento</option>
           <option value="Utilidades/Predial">Utilidades/Predial</option>
         </select>
-        <input type="date" id="headerDateInput" aria-label="Data do relatório">
+      </div>
+      <div>
+        <label class="fld-lbl" for="inpData">Data</label>
+        <input type="date" id="inpData">
       </div>
     </div>
-    <nav class="tabs">
-      <button class="tab-btn active" data-tab="register">1. Registrar</button>
-      <button class="tab-btn" data-tab="list" id="tabListBtn">2. Lista (0)</button>
-      <button class="tab-btn" data-tab="report">3. Relatório</button>
-    </nav>
-  </header>
-
-  <main>
-    <!-- ABA 1: REGISTRAR -->
-    <section id="tab-register">
-      <div class="card" style="margin-bottom:14px;">
-        <div class="card-header">
-          <span class="step-title">Relato Rápido (Voz ou Texto)</span>
-          <div style="display:flex;gap:6px;">
-            <button type="button" class="link-btn" id="btnOpenAiKey">⚙️ Voz IA</button>
-            <button type="button" class="link-btn" id="clearRawBtn">Limpar</button>
-          </div>
-        </div>
-
-        <div class="voice-grid">
-          <button type="button" class="btn btn-voice" id="btnRecordAudio">
-            <span>🎙️</span>
-            <span id="lblRecordAudio">Gravar Áudio (IA)</span>
-          </button>
-          <button type="button" class="btn btn-voice" id="btnLiveSpeech">
-            <span>🗣️</span>
-            <span id="lblLiveSpeech">Ditar ao Vivo</span>
-          </button>
-          <button type="button" class="btn btn-voice" id="btnKeyboardMic">
-            <span>⌨️</span>
-            <span>Mic do Teclado</span>
-          </button>
-        </div>
-
-        <textarea id="rawInput" rows="3" placeholder="Ex: Na lixadeira o sensor 5480B21 estava perdendo sinal devido sujeira, foi feita limpeza e liberado."></textarea>
-        <div class="status-line" id="voiceStatus"></div>
-
-        <button type="button" class="btn btn-primary" id="btnProcess" style="margin-top:6px;">
-          Processar e Preencher
-        </button>
-      </div>
-
-      <!-- ETAPA 1: ÁREA -->
-      <div class="card" style="margin-bottom:14px;">
-        <div class="card-header">
-          <span class="step-title">1 - Área</span>
-          <button type="button" class="link-btn" id="btnOpenManage">+ Editar áreas / TAGs</button>
-        </div>
-        <div class="area-grid" id="areaGrid"></div>
-        <input type="hidden" id="selectedArea" value="">
-        <div class="tag-hint">
-          <span id="selectedAreaHint">Nenhuma área selecionada</span>
-          <span id="learnedTagsCount">0 TAGs salvas</span>
-        </div>
-      </div>
-
-      <!-- ETAPA 2: OCORRÊNCIA DETALHADA -->
-      <div class="card">
-        <div class="card-header">
-          <span class="step-title">2 - Ocorrência detalhada</span>
-          <span id="editBadge" class="hidden" style="font-size:11px;color:#facc15;font-weight:800;">EDITANDO</span>
-        </div>
-        <input type="hidden" id="editingId" value="">
-        <textarea id="fieldOcorrencia" rows="4" placeholder="Descrição limpa do problema, causa, TAG e o que foi feito (sem repetir o nome da área)..."></textarea>
-
-        <div class="action-row">
-          <button type="button" class="btn btn-primary" id="btnSaveOccurrence">Salvar Ocorrência</button>
-          <button type="button" class="btn hidden" id="btnCancelEdit" style="min-width:110px;">Cancelar</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABA 2: LISTA -->
-    <section id="tab-list" class="hidden">
-      <div id="occurrencesContainer"></div>
-    </section>
-
-    <!-- ABA 3: RELATÓRIO -->
-    <section id="tab-report" class="hidden">
-      <div class="card" style="margin-bottom:14px;">
-        <div class="card-header">
-          <span class="step-title">Cabeçalho e Colaboradores</span>
-        </div>
-        <div class="row-2 field-group">
-          <div>
-            <label for="reportTitleInput">Título do Relatório</label>
-            <input type="text" id="reportTitleInput" value="Relatório Turno A1">
-          </div>
-          <div>
-            <label for="reportDateInput">Data</label>
-            <input type="date" id="reportDateInput" style="color-scheme:dark;">
-          </div>
-        </div>
-        <div class="field-group" style="margin-bottom:0;">
-          <label for="signatureInput">Colaboradores</label>
-          <input type="text" id="signatureInput" placeholder="Pelé / Maradona / Ronaldinho" value="">
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span class="step-title">Prévia WhatsApp</span>
-        </div>
-        <div class="report-box" id="reportPreview"></div>
-
-        <div class="export-grid">
-          <button type="button" class="btn btn-primary" id="btnCopyReport">Copiar Texto</button>
-          <a id="btnWhatsapp" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">Abrir no WhatsApp</a>
-        </div>
-
-        <button type="button" class="btn btn-danger-outline" id="btnNewShift">Iniciar Novo Turno</button>
-      </div>
-    </section>
-  </main>
-</div>
-
-<!-- MODAL CONFIG. VOZ IA -->
-<div class="modal-backdrop hidden" id="aiKeyModal">
-  <div class="modal">
-    <div class="card-header">
-      <span class="step-title">Config. Voz IA (Opcional)</span>
-      <button type="button" class="link-btn" id="btnCloseAiKey">Fechar</button>
+    <div>
+      <label class="fld-lbl" for="inpEquipe">Equipe (opcional — não sai se vazio)</label>
+      <input type="text" id="inpEquipe" placeholder="Pelé / Maradona / Ronaldinho">
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
-      Para usar o botão <strong>Gravar Áudio (IA)</strong> diretamente no navegador do celular, cole sua chave gratuita da API Google Gemini (salva apenas no seu aparelho):
-    </p>
-    <div class="field-group">
-      <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy...">
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>1. Selecione a Área</span>
+      <small id="selectedAreaLabel">Nenhuma selecionada</small>
     </div>
-    <button type="button" class="btn btn-primary" id="btnSaveAiKey">Salvar Chave</button>
-    <p style="font-size:11px;color:var(--muted);margin-top:8px;">
-      Sem chave configurada, os botões <strong>Ditar ao Vivo</strong>, <strong>Mic do Teclado</strong> e o analisador local continuam funcionando normalmente.
-    </p>
+    <div class="area-grid" id="areaGrid"></div>
+
+    <div class="sec-label" style="margin-top:14px;">
+      <span>2. Ocorrência Detalhada</span>
+      <small id="editModeLabel"></small>
+    </div>
+    <textarea id="inpDesc" placeholder="Descreva o problema, TAG (ex: 5480B21) e o serviço realizado..."></textarea>
+
+    <div class="voice-row">
+      <button type="button" class="btn-voice" id="btnSpeechLive">🎙️ Ditado ao Vivo</button>
+      <button type="button" class="btn-voice" id="btnVoiceAI">✨ Voz IA (Gemini)</button>
+    </div>
+    <div id="statusMsg" class="hint-box">Dica: Você também pode usar o microfone do teclado do celular.</div>
+
+    <button type="button" class="btn-primary" id="btnAddOcc">+ ADICIONAR OCORRÊNCIA</button>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Ocorrências Registradas</span>
+      <button type="button" class="mini-btn del" id="btnClearAll">Limpar Turno</button>
+    </div>
+    <div id="occListContainer"></div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Prévia WhatsApp</span>
+      <small>Formatação pronta</small>
+    </div>
+    <div class="preview-box" id="previewBox"></div>
   </div>
 </div>
 
-<!-- MODAL GERENCIAR ÁREAS E TAGS -->
-<div class="modal-backdrop hidden" id="manageModal">
-  <div class="modal">
-    <div class="card-header">
-      <span class="step-title">Gerenciar Áreas e TAGs</span>
-      <button type="button" class="link-btn" id="btnCloseManage">Fechar</button>
-    </div>
-
-    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">Áreas cadastradas (toque no × para remover):</p>
-    <div class="area-manage-list" id="manageAreasList"></div>
-
-    <div style="display:flex;gap:6px;margin-top:8px;">
-      <input type="text" id="newAreaInput" placeholder="Nova área..." style="flex:1;padding:9px 10px;">
-      <button type="button" class="btn btn-primary" id="btnAddArea" style="width:auto;padding:9px 14px;">Adicionar</button>
-    </div>
-
-    <div class="modal-section">
-      <span class="step-title" style="display:block;margin-bottom:6px;">Importar TAGs por Área</span>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
-        Cole TAGs (ex: <code>5480B21, 5480M01</code>) ou envie um arquivo CSV/TXT para vincular à área escolhida:
-      </p>
-      <div class="field-group">
-        <select id="importTagAreaSelect" style="width:100%;padding:9px 10px;"></select>
-      </div>
-      <div class="field-group">
-        <textarea id="importTagsText" rows="3" placeholder="Cole as TAGs separadas por vírgula, espaço ou linha..."></textarea>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-        <input type="file" id="importTagsFile" accept=".csv,.txt" style="font-size:12px;color:var(--muted);width:100%;">
-      </div>
-      <button type="button" class="btn btn-primary" id="btnImportTags">Salvar TAGs na Área</button>
-      <div id="tagsSummaryBox" style="font-size:11px;color:var(--muted);margin-top:10px;max-height:110px;overflow-y:auto;"></div>
-    </div>
+<div class="bottom-bar">
+  <div class="bottom-inner">
+    <button type="button" class="btn-copy" id="btnCopy">📋 Copiar Texto</button>
+    <button type="button" class="btn-wpp" id="btnWhatsApp">📲 Enviar WhatsApp</button>
   </div>
 </div>
 
-<div class="toast hidden" id="toast"></div>
+<div class="modal-bg" id="modalSettings">
+  <div class="modal-card">
+    <div class="modal-title">⚙️ Configurar Voz IA (Google)</div>
+    <div class="modal-desc">
+      Cole sua chave da API Gemini (começa com <b>AIza...</b> ou <b>AQ....</b>). Ela fica salva apenas neste aparelho.
+    </div>
+    <label class="fld-lbl" for="inpApiKey">Chave API (AIza... ou AQ....)</label>
+    <input type="password" id="inpApiKey" placeholder="AIzaSy... ou AQ.Ab8...">
+    <div class="modal-btns">
+      <button type="button" class="mini-btn" id="btnToggleKey">Mostrar</button>
+      <button type="button" class="mini-btn" id="btnCloseModal">Fechar</button>
+      <button type="button" class="icon-btn" style="background:#facc15;color:#000;" id="btnSaveKey">Salvar Chave</button>
+    </div>
+  </div>
+</div>
 
 <script>
-(() => {
-  const DEFAULT_AREAS = [
-    'Lixadeira',
-    'Carro Satélite',
-    'Wenhoner',
-    'BP1',
-    'Etiquetadora',
-    'Plastificadora',
-    'Fábrica de Calço',
-    'Embalagem',
-    'Impregnadora'
+(function() {
+  "use strict";
+
+  var AREAS = [
+    "Lixadeira",
+    "Carro Satélite",
+    "Wenhoner",
+    "BP1",
+    "Etiquetadora",
+    "Plastificadora",
+    "Fábrica de Calço",
+    "Embalagem",
+    "Impregnadora"
   ];
 
-  const VALID_SHIFTS = [
-    'Turno A1',
-    'Turno A2',
-    'Turno B1',
-    'Turno B2',
-    'Acabamento',
-    'Utilidades/Predial'
+  // Alias list ordered from longest to shortest so specific phrases match first
+  var AREA_ALIASES = [
+    ["fabrica de calco", "Fábrica de Calço"],
+    ["fabrica de calcos", "Fábrica de Calço"],
+    ["fabrica calco", "Fábrica de Calço"],
+    ["carro satelite", "Carro Satélite"],
+    ["carros satelite", "Carro Satélite"],
+    ["carro de satelite", "Carro Satélite"],
+    ["ciclo curto", "Wenhoner"],
+    ["plastificadora", "Plastificadora"],
+    ["etiquetadora", "Etiquetadora"],
+    ["etiquetadeira", "Etiquetadora"],
+    ["impregnadora", "Impregnadora"],
+    ["lixadeira", "Lixadeira"],
+    ["embalagem", "Embalagem"],
+    ["embaladora", "Embalagem"],
+    ["satelite", "Carro Satélite"],
+    ["wenhoner", "Wenhoner"],
+    ["wemhoner", "Wenhoner"],
+    ["venhoner", "Wenhoner"],
+    ["vem honer", "Wenhoner"],
+    ["ven honer", "Wenhoner"],
+    ["wenoner", "Wenhoner"],
+    ["venoner", "Wenhoner"],
+    ["vernoner", "Wenhoner"],
+    ["prensa", "Wenhoner"],
+    ["wemo", "Wenhoner"],
+    ["vemo", "Wenhoner"],
+    ["b p 1", "BP1"],
+    ["b p um", "BP1"],
+    ["bp 1", "BP1"],
+    ["bp-1", "BP1"],
+    ["bp um", "BP1"],
+    ["bebe 1", "BP1"],
+    ["bp1", "BP1"],
+    ["calco", "Fábrica de Calço"],
+    ["calcos", "Fábrica de Calço"]
   ];
 
-  // Armazenamento local blindado (fallback em memória se iframe bloquear localStorage)
-  const memStore = {};
-  const safeStorage = {
-    get(key) {
-      try {
-        const v = window.localStorage.getItem(key);
-        return v !== null ? v : (memStore[key] ?? null);
-      } catch (e) {
-        return memStore[key] ?? null;
-      }
-    },
-    set(key, val) {
-      memStore[key] = val;
-      try { window.localStorage.setItem(key, val); } catch (e) {}
+  var STORAGE_KEY = "turnotech_manut_v3";
+  var TAG_MAP_KEY = "turnotech_tag_map_v1";
+  var API_KEY_STORAGE = "turnotech_gemini_key";
+
+  var state = {
+    turno: "Turno A1",
+    data: "",
+    equipe: "",
+    selectedArea: "",
+    manualAreaLock: false,
+    editingId: null,
+    items: []
+  };
+
+  var tagMap = {};
+  var clearConfirmTimer = null;
+  var clearArmed = false;
+
+  function loadStorage(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      return fallback;
     }
-  };
+  }
+  function saveStorage(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {}
+  }
 
-  let areas = [...DEFAULT_AREAS];
-  let items = [];
-  let tagMap = {};
-  let userApiKey = '';
-  let meta = {
-    shift: 'Turno A1',
-    title: 'Relatório Turno A1',
-    date: new Date().toISOString().slice(0, 10),
-    signature: '',
-    signaturesByShift: {}
-  };
+  function todayISO() {
+    var d = new Date();
+    var off = d.getTimezoneOffset();
+    var local = new Date(d.getTime() - off * 60000);
+    return local.toISOString().slice(0, 10);
+  }
 
-  const $ = id => document.getElementById(id);
-  const shiftSelect = $('shiftSelect');
-  const headerDateInput = $('headerDateInput');
-  const rawInput = $('rawInput');
-  const voiceStatus = $('voiceStatus');
-  const areaGrid = $('areaGrid');
-  const selectedAreaInput = $('selectedArea');
-  const selectedAreaHint = $('selectedAreaHint');
-  const learnedTagsCount = $('learnedTagsCount');
-  const fieldOcorrencia = $('fieldOcorrencia');
-  const editingIdInput = $('editingId');
-  const editBadge = $('editBadge');
-  const btnCancelEdit = $('btnCancelEdit');
-  const reportTitleInput = $('reportTitleInput');
-  const reportDateInput = $('reportDateInput');
-  const signatureInput = $('signatureInput');
-  const reportPreview = $('reportPreview');
+  function formatBRDate(iso) {
+    if (!iso || iso.indexOf("-") === -1) return "";
+    var p = iso.split("-");
+    return p[2] + "/" + p[1] + "/" + p[0];
+  }
 
-  function showToast(msg) {
-    const t = $('toast');
-    t.textContent = msg;
-    t.classList.remove('hidden');
-    clearTimeout(showToast._timer);
-    showToast._timer = setTimeout(() => t.classList.add('hidden'), 2400);
+  function setStatus(msg, type) {
+    var el = document.getElementById("statusMsg");
+    el.textContent = msg;
+    el.className = "hint-box" + (type ? " " + type : "");
   }
 
   function normalizeStr(s) {
-    return String(s || '')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim();
-  }
-
-  function escapeRegex(s) {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  function formatDateBR(iso) {
-    if (!iso || !iso.includes('-')) return '';
-    const [y, m, d] = iso.split('-');
-    return `${d}/${m}/${y}`;
-  }
-
-  function getBaseTitleForShift(shift) {
-    if (shift === 'Acabamento') return 'Relatório Acabamento';
-    if (shift === 'Utilidades/Predial') return 'Relatório Utilidades/Predial';
-    return `Relatório ${shift}`;
-  }
-
-  function isAutoTitle(title) {
-    const clean = String(title || '').replace(/\*/g, '').trim();
-    if (!clean) return true;
-    return VALID_SHIFTS.some(s => clean === getBaseTitleForShift(s));
-  }
-
-  function loadState() {
-    userApiKey = safeStorage.get('tt_gemini_key') || '';
-    $('geminiApiKeyInput').value = userApiKey;
-
-    try {
-      const savedAreas = JSON.parse(safeStorage.get('tt_areas') || 'null');
-      if (Array.isArray(savedAreas) && savedAreas.length) areas = savedAreas;
-    } catch (e) {}
-
-    try {
-      const savedItems = JSON.parse(safeStorage.get('tt_items') || 'null');
-      if (Array.isArray(savedItems)) items = savedItems;
-    } catch (e) {}
-
-    try {
-      const savedTags = JSON.parse(safeStorage.get('tt_tags') || 'null');
-      if (savedTags && typeof savedTags === 'object') tagMap = savedTags;
-    } catch (e) {}
-
-    try {
-      const savedMeta = JSON.parse(safeStorage.get('tt_meta') || 'null');
-      if (savedMeta && typeof savedMeta === 'object') {
-        meta = { ...meta, ...savedMeta };
-      }
-    } catch (e) {}
-
-    if (!VALID_SHIFTS.includes(meta.shift)) meta.shift = 'Turno A1';
-    if (isAutoTitle(meta.title)) meta.title = getBaseTitleForShift(meta.shift);
-
-    shiftSelect.value = meta.shift;
-    headerDateInput.value = meta.date;
-    reportTitleInput.value = meta.title;
-    reportDateInput.value = meta.date;
-    const rawSig = meta.signaturesByShift?.[meta.shift] ?? meta.signature ?? '';
-    signatureInput.value = rawSig === 'Pelé / Maradona / Ronaldinho' ? '' : rawSig;
-    syncHeaderDisplay();
-  }
-
-  function saveAll() {
-    safeStorage.set('tt_areas', JSON.stringify(areas));
-    safeStorage.set('tt_items', JSON.stringify(items));
-    safeStorage.set('tt_tags', JSON.stringify(tagMap));
-    const sh = shiftSelect.value;
-    meta.shift = sh;
-    meta.title = reportTitleInput.value;
-    meta.date = reportDateInput.value;
-    meta.signature = signatureInput.value;
-    if (!meta.signaturesByShift) meta.signaturesByShift = {};
-    meta.signaturesByShift[sh] = signatureInput.value;
-    safeStorage.set('tt_meta', JSON.stringify(meta));
-    syncHeaderDisplay();
-  }
-
-  function syncHeaderDisplay() {
-    $('tabListBtn').textContent = `2. Lista (${items.length})`;
-  }
-
-  // Normalização de TAGs e remoção de repetições do nome da área
-  function normalizeTagsInText(text) {
-    return String(text || '').replace(/\b(\d{3,5})\s*([a-zA-Z]{1,2})\s*(\d{1,4})\b/g, (_, p1, p2, p3) => {
-      return `${p1}${p2.toUpperCase()}${p3}`;
-    });
+    return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
   function extractTags(text) {
-    const normalized = normalizeTagsInText(text);
-    const matches = normalized.match(/\b\d{3,5}[A-Z]{1,3}\d{1,4}\b/g) || [];
-    return [...new Set(matches)];
+    var matches = (text || "").toUpperCase().match(/\b[0-9]{2,5}[A-Z]{1,3}[0-9]{1,4}\b/g);
+    return matches || [];
   }
 
-  const PHONETIC_ALIASES = [
-    { area: 'Wenhoner', patterns: ['wenhoner', 'wehoner', 'venhoner', 'v honner', 'vhonner', 'v-honner', 'venoner'] },
-    { area: 'Impregnadora', patterns: ['impregnadora', 'inpregnadora', 'impregna'] },
-    { area: 'Carro Satélite', patterns: ['carro satelite', 'carro satélite', 'satelite', 'satélite'] },
-    { area: 'Fábrica de Calço', patterns: ['fabrica de calco', 'fábrica de calço', 'fabrica calco', 'calco', 'calço'] },
-    { area: 'Plastificadora', patterns: ['plastificadora'] },
-    { area: 'Etiquetadora', patterns: ['etiquetadora'] },
-    { area: 'Lixadeira', patterns: ['lixadeira'] },
-    { area: 'Embalagem', patterns: ['embalagem'] },
-    { area: 'BP1', patterns: ['bp1', 'bp 1', 'b p 1'] }
-  ];
-
-  function detectArea(text) {
-    const norm = normalizeStr(text);
-
-    for (const a of areas) {
-      const aNorm = normalizeStr(a);
-      if (aNorm && new RegExp(`\\b${escapeRegex(aNorm)}\\b`, 'i').test(norm)) {
-        return a;
+  function detectAreaFromText(text) {
+    var tags = extractTags(text);
+    for (var i = 0; i < tags.length; i++) {
+      if (tagMap[tags[i]]) return tagMap[tags[i]];
+    }
+    var norm = normalizeStr(text);
+    for (var j = 0; j < AREA_ALIASES.length; j++) {
+      var alias = AREA_ALIASES[j][0];
+      var targetArea = AREA_ALIASES[j][1];
+      if (norm.indexOf(alias) !== -1) {
+        return targetArea;
       }
     }
+    return "";
+  }
 
-    for (const entry of PHONETIC_ALIASES) {
-      if (!areas.includes(entry.area)) continue;
-      for (const p of entry.patterns) {
-        if (new RegExp(`\\b${escapeRegex(normalizeStr(p))}\\b`, 'i').test(norm)) {
-          return entry.area;
+  function cleanDescription(text, area) {
+    var t = (text || "").trim();
+    if (!t) return "";
+    if (area) {
+      // Strip official area name or matching spoken alias at the beginning of the sentence
+      var candidates = [area];
+      for (var i = 0; i < AREA_ALIASES.length; i++) {
+        if (AREA_ALIASES[i][1] === area) {
+          candidates.push(AREA_ALIASES[i][0]);
         }
       }
-    }
+      var normStart = normalizeStr(t);
+      var prefixMatch = normStart.match(/^(?:na|no|em|da|do|area)?\s*/);
+      var prefixLen = prefixMatch ? prefixMatch[0].length : 0;
+      var restNorm = normStart.slice(prefixLen);
 
-    const foundTags = extractTags(text);
-    for (const t of foundTags) {
-      if (tagMap[t] && areas.includes(tagMap[t])) {
-        return tagMap[t];
-      }
-    }
-
-    return '';
-  }
-
-  function stripAreaFromText(text, area) {
-    let result = normalizeTagsInText(text).trim();
-    if (!result) return '';
-
-    const candidates = [];
-    if (area) {
-      candidates.push(area);
-      const aliasEntry = PHONETIC_ALIASES.find(x => x.area === area);
-      if (aliasEntry) candidates.push(...aliasEntry.patterns);
-    }
-
-    const uniqueCandidates = [...new Set(candidates)].sort((a, b) => b.length - a.length);
-
-    for (const cand of uniqueCandidates) {
-      const esc = escapeRegex(cand.trim());
-      const startRe = new RegExp(
-        `^(?:(?:na|no|em|da|do|de|a|o|para|pela|pelo)\\s+)?(?:(?:linha|area|área|maquina|máquina|equipamento)\\s+(?:da|do|de)?\\s*)?${esc}[\\s,.:;-]*`,
-        'i'
-      );
-      result = result.replace(startRe, '');
-
-      const midRe = new RegExp(
-        `\\b(?:na|no|da|do|em)\\s+(?:(?:linha|maquina|máquina)\\s+(?:da|do)\\s+)?${esc}\\b[,;]?\\s*`,
-        'gi'
-      );
-      result = result.replace(midRe, ' ');
-
-      const endRe = new RegExp(
-        `[,;\\s-]+(?:(?:na|no|da|do|em)\\s+)?(?:(?:linha|maquina|máquina|equipamento)\\s+(?:da|do)\\s+)?${esc}[.]?$`,
-        'i'
-      );
-      result = result.replace(endRe, '');
-    }
-
-    result = result.replace(/\s{2,}/g, ' ').replace(/^[,.:;\s-]+/, '').trim();
-    if (result.length > 0) {
-      result = result.charAt(0).toUpperCase() + result.slice(1);
-    }
-    return result;
-  }
-
-  // Extração Híbrida (Gemini API + motor local instantâneo)
-  async function processInputText() {
-    const raw = rawInput.value.trim();
-    if (!raw) {
-      showToast('Digite ou dite um relato primeiro.');
-      rawInput.focus();
-      return;
-    }
-
-    const btn = $('btnProcess');
-    btn.disabled = true;
-    btn.textContent = 'Processando...';
-
-    let detectedArea = detectArea(raw) || selectedAreaInput.value;
-    let cleanedText = stripAreaFromText(raw, detectedArea);
-
-    if (userApiKey) {
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(userApiKey)}`;
-        const prompt = `Você é um assistente técnico industrial. Extraia a área e limpe a descrição da ocorrência.
-Áreas válidas: ${areas.join(', ')}.
-Mapa de TAGs conhecidas: ${JSON.stringify(tagMap)}.
-Regras:
-1. Identifique a área correspondente (corrigindo erros fonéticos como wenhoner/vhonner -> Wenhoner, inpregnadora -> Impregnadora). Se não houver área clara, retorne "".
-2. Reescreva "ocorrencia" contendo o problema, causa, TAGs (formatadas juntas ex: 5480B21) e o que foi feito, MAS REMOVA completamente o nome da área e preposições introdutórias ("Na lixadeira...", "No carro satélite...") para não repetir a área no texto.
-Relato: "${raw}"`;
-
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: controller.signal,
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              responseMimeType: 'application/json',
-              responseSchema: {
-                type: 'OBJECT',
-                properties: {
-                  area: { type: 'STRING' },
-                  ocorrencia: { type: 'STRING' }
-                },
-                required: ['area', 'ocorrencia']
-              }
-            }
-          })
-        });
-        clearTimeout(timeout);
-
-        if (res.ok) {
-          const data = await res.json();
-          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (txt) {
-            const parsed = JSON.parse(txt);
-            if (parsed.area && areas.includes(parsed.area)) {
-              detectedArea = parsed.area;
-            }
-            if (parsed.ocorrencia) {
-              cleanedText = stripAreaFromText(parsed.ocorrencia, detectedArea);
-            }
+      for (var j = 0; j < candidates.length; j++) {
+        var candNorm = normalizeStr(candidates[j]);
+        if (restNorm.indexOf(candNorm) === 0) {
+          var afterCand = restNorm.slice(candNorm.length);
+          if (afterCand === "" || /^[\s:\-–,.]/.test(afterCand)) {
+            var sepMatch = afterCand.match(/^[\s:\-–,.]+/);
+            var cutLen = prefixLen + candNorm.length + (sepMatch ? sepMatch[0].length : 0);
+            t = t.slice(cutLen);
+            break;
           }
         }
-      } catch (e) {
-        // Fallback local já calculado
       }
     }
-
-    if (detectedArea) selectArea(detectedArea);
-    fieldOcorrencia.value = cleanedText;
-    btn.disabled = false;
-    btn.textContent = 'Processar e Preencher';
-    showToast(detectedArea ? `Área: ${detectedArea}` : 'Texto limpo preenchido!');
+    t = t.trim();
+    if (t.length > 0) {
+      t = t.charAt(0).toUpperCase() + t.slice(1);
+    }
+    return t;
   }
 
   function renderAreas() {
-    areaGrid.innerHTML = '';
-    areas.forEach(area => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'area-chip' + (selectedAreaInput.value === area ? ' selected' : '');
-      btn.textContent = area;
-      btn.onclick = () => selectArea(area);
-      areaGrid.appendChild(btn);
-    });
-    learnedTagsCount.textContent = `${Object.keys(tagMap).length} TAGs salvas`;
-  }
-
-  function selectArea(area) {
-    selectedAreaInput.value = area;
-    selectedAreaHint.textContent = area ? `Selecionada: ${area}` : 'Nenhuma área selecionada';
-    if (fieldOcorrencia.value.trim()) {
-      fieldOcorrencia.value = stripAreaFromText(fieldOcorrencia.value, area);
-    }
-    renderAreas();
-  }
-
-  function saveOccurrence() {
-    const area = selectedAreaInput.value.trim();
-    const rawOcc = fieldOcorrencia.value.trim();
-
-    if (!area) {
-      showToast('Selecione uma Área no passo 1.');
-      return;
-    }
-    if (!rawOcc) {
-      showToast('Preencha a ocorrência detalhada no passo 2.');
-      fieldOcorrencia.focus();
-      return;
-    }
-
-    const cleanOcc = stripAreaFromText(rawOcc, area);
-    const tagsFound = extractTags(cleanOcc);
-    tagsFound.forEach(t => { tagMap[t] = area; });
-
-    const editId = editingIdInput.value;
-    if (editId) {
-      const idx = items.findIndex(x => x.id === editId);
-      if (idx !== -1) {
-        items[idx].area = area;
-        items[idx].text = cleanOcc;
-      }
-      cancelEdit();
-      showToast('Ocorrência atualizada!');
-    } else {
-      items.push({
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
-        area,
-        text: cleanOcc
-      });
-      showToast('Ocorrência salva!');
-    }
-
-    rawInput.value = '';
-    fieldOcorrencia.value = '';
-    saveAll();
-    renderAreas();
-    renderList();
-    renderReport();
-  }
-
-  function startEdit(id) {
-    const item = items.find(x => x.id === id);
-    if (!item) return;
-    editingIdInput.value = item.id;
-    selectArea(item.area);
-    fieldOcorrencia.value = item.text;
-    editBadge.classList.remove('hidden');
-    btnCancelEdit.classList.remove('hidden');
-    $('btnSaveOccurrence').textContent = 'Atualizar Ocorrência';
-    switchTab('register');
-    fieldOcorrencia.focus();
-  }
-
-  function cancelEdit() {
-    editingIdInput.value = '';
-    fieldOcorrencia.value = '';
-    editBadge.classList.add('hidden');
-    btnCancelEdit.classList.add('hidden');
-    $('btnSaveOccurrence').textContent = 'Salvar Ocorrência';
-  }
-
-  function deleteItem(id) {
-    items = items.filter(x => x.id !== id);
-    if (editingIdInput.value === id) cancelEdit();
-    saveAll();
-    renderList();
-    renderReport();
-    showToast('Registro removido.');
-  }
-
-  function getGroupedItems() {
-    const map = new Map();
-    areas.forEach(a => map.set(a, []));
-    items.forEach(it => {
-      if (!map.has(it.area)) map.set(it.area, []);
-      map.get(it.area).push(it);
-    });
-    const groups = [];
-    map.forEach((list, area) => {
-      if (list.length > 0) groups.push({ area, list });
-    });
-    return groups;
-  }
-
-  function renderList() {
-    const container = $('occurrencesContainer');
-    const groups = getGroupedItems();
-    if (!groups.length) {
-      container.innerHTML = '<div class="card empty-state">Nenhuma ocorrência registrada neste turno ainda.</div>';
-      return;
-    }
-
-    container.innerHTML = '';
-    groups.forEach(g => {
-      const card = document.createElement('div');
-      card.className = 'group-card';
-
-      const title = document.createElement('div');
-      title.className = 'group-title';
-      title.textContent = `${g.area} (${g.list.length})`;
-      card.appendChild(title);
-
-      g.list.forEach(it => {
-        const row = document.createElement('div');
-        row.className = 'occ-item';
-
-        const p = document.createElement('div');
-        p.className = 'occ-text';
-        p.textContent = `- ${it.text}`;
-
-        const btns = document.createElement('div');
-        btns.className = 'occ-btns';
-
-        const bEdit = document.createElement('button');
-        bEdit.type = 'button';
-        bEdit.className = 'btn btn-sm';
-        bEdit.textContent = 'Editar';
-        bEdit.onclick = () => startEdit(it.id);
-
-        const bDel = document.createElement('button');
-        bDel.type = 'button';
-        bDel.className = 'btn btn-sm';
-        bDel.style.color = '#fca5a5';
-        bDel.textContent = 'Excluir';
-        bDel.onclick = () => deleteItem(it.id);
-
-        btns.append(bEdit, bDel);
-        row.append(p, btns);
-        card.appendChild(row);
-      });
-
-      container.appendChild(card);
-    });
-  }
-
-  function buildReportText() {
-    const rawTitle = (reportTitleInput.value || getBaseTitleForShift(shiftSelect.value)).replace(/\*/g, '').trim();
-    const dateBR = formatDateBR(reportDateInput.value);
-
-    const lines = [`*${rawTitle}*`];
-    if (dateBR) lines.push(`*Data:* ${dateBR}`);
-    lines.push('');
-
-    const groups = getGroupedItems();
-    if (!groups.length) {
-      lines.push('_Sem ocorrências registradas._');
-    } else {
-      groups.forEach((g, idx) => {
-        lines.push(`- ${g.area}`);
-        g.list.forEach(it => {
-          lines.push(`  - ${it.text}`);
-        });
-        if (idx < groups.length - 1) lines.push('');
-      });
-    }
-
-    const sig = signatureInput.value.trim();
-    if (sig) {
-      lines.push('');
-      lines.push(sig);
-    }
-
-    return lines.join('\n');
-  }
-
-  function renderReport() {
-    const text = buildReportText();
-    reportPreview.textContent = text;
-    $('btnWhatsapp').href = `https://wa.me/?text=${encodeURIComponent(text)}`;
-  }
-
-  // Ditado ao vivo (SpeechRecognition)
-  let recognition = null;
-  let isListening = false;
-
-  function toggleLiveSpeech() {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) {
-      voiceStatus.textContent = 'Ditado ao vivo indisponível aqui. Toque em "Mic do Teclado" e use o microfone do teclado.';
-      rawInput.focus();
-      return;
-    }
-    if (isListening && recognition) {
-      recognition.stop();
-      return;
-    }
-
-    try {
-      recognition = new SR();
-      recognition.lang = 'pt-BR';
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      const baseText = rawInput.value ? rawInput.value.trim() + ' ' : '';
-
-      recognition.onstart = () => {
-        isListening = true;
-        $('btnLiveSpeech').classList.add('recording');
-        $('lblLiveSpeech').textContent = 'Parar Ditado';
-        voiceStatus.textContent = 'Ouvindo... fale a área e a ocorrência.';
-      };
-
-      recognition.onresult = (e) => {
-        let transcript = '';
-        for (let i = 0; i < e.results.length; i++) {
-          transcript += e.results[i][0].transcript;
-        }
-        rawInput.value = baseText + transcript;
-      };
-
-      recognition.onerror = () => {
-        voiceStatus.textContent = 'Bloqueado na janela de prévia. Use "Mic do Teclado" para ditar pelo teclado.';
-      };
-
-      recognition.onend = () => {
-        isListening = false;
-        $('btnLiveSpeech').classList.remove('recording');
-        $('lblLiveSpeech').textContent = 'Ditar ao Vivo';
-        if (rawInput.value.trim()) {
-          voiceStatus.textContent = 'Ditado concluído. Toque em "Processar e Preencher".';
-        }
-      };
-
-      recognition.start();
-    } catch (e) {
-      voiceStatus.textContent = 'Use o botão "Mic do Teclado" para ditar direto pelo teclado.';
-    }
-  }
-
-  // Gravação de Áudio (MediaRecorder + Gemini)
-  let mediaRecorder = null;
-  let audioChunks = [];
-  let isRecordingAudio = false;
-
-  async function toggleAudioRecording() {
-    if (isRecordingAudio && mediaRecorder) {
-      mediaRecorder.stop();
-      return;
-    }
-
-    if (!userApiKey) {
-      voiceStatus.textContent = 'Configure sua chave em "⚙️ Voz IA" para gravar áudio, ou use "Ditar ao Vivo" / "Mic do Teclado".';
-      $('aiKeyModal').classList.remove('hidden');
-      return;
-    }
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      voiceStatus.textContent = 'Gravação direta bloqueada nesta janela. Use "Mic do Teclado".';
-      rawInput.focus();
-      return;
-    }
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-
-      mediaRecorder.ondataavailable = e => {
-        if (e.data.size > 0) audioChunks.push(e.data);
-      };
-
-      mediaRecorder.onstart = () => {
-        isRecordingAudio = true;
-        $('btnRecordAudio').classList.add('recording');
-        $('lblRecordAudio').textContent = 'Parar Áudio';
-        voiceStatus.textContent = 'Gravando áudio... toque novamente para finalizar.';
-      };
-
-      mediaRecorder.onstop = async () => {
-        isRecordingAudio = false;
-        $('btnRecordAudio').classList.remove('recording');
-        $('lblRecordAudio').textContent = 'Gravar Áudio (IA)';
-        stream.getTracks().forEach(t => t.stop());
-        voiceStatus.textContent = 'Transcrevendo áudio com IA...';
-
-        const blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const base64 = String(reader.result).split(',')[1];
-          try {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(userApiKey)}`;
-            const res = await fetch(url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: [{
-                  parts: [
-                    { text: 'Transcreva fielmente este áudio técnico industrial em português do Brasil, mantendo siglas e TAGs como 5480B21.' },
-                    { inlineData: { mimeType: blob.type || 'audio/webm', data: base64 } }
-                  ]
-                }]
-              })
-            });
-            if (res.ok) {
-              const data = await res.json();
-              const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-              if (text) {
-                rawInput.value = text.trim();
-                voiceStatus.textContent = 'Áudio transcrito! Preenchendo campos...';
-                await processInputText();
-                return;
-              }
-            }
-            voiceStatus.textContent = 'Não foi possível transcrever. Verifique a chave em "⚙️ Voz IA" ou use "Mic do Teclado".';
-          } catch (err) {
-            voiceStatus.textContent = 'Falha na transcrição. Use o "Mic do Teclado".';
+    var grid = document.getElementById("areaGrid");
+    grid.innerHTML = "";
+    for (var i = 0; i < AREAS.length; i++) {
+      (function(areaName) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "area-btn" + (state.selectedArea === areaName ? " active" : "");
+        btn.textContent = areaName;
+        btn.onclick = function() {
+          if (state.selectedArea === areaName && state.manualAreaLock) {
+            state.selectedArea = "";
+            state.manualAreaLock = false;
+          } else {
+            state.selectedArea = areaName;
+            state.manualAreaLock = true;
           }
+          renderAreas();
+          document.getElementById("selectedAreaLabel").textContent = state.selectedArea || "Nenhuma selecionada";
         };
-        reader.readAsDataURL(blob);
-      };
+        grid.appendChild(btn);
+      })(AREAS[i]);
+    }
+    document.getElementById("selectedAreaLabel").textContent = state.selectedArea || "Nenhuma selecionada";
+  }
 
-      mediaRecorder.start();
-    } catch (err) {
-      voiceStatus.textContent = 'Permissão de microfone bloqueada na prévia. Toque em "Mic do Teclado".';
-      rawInput.focus();
+  function buildWhatsAppText() {
+    var lines = [];
+    lines.push("*Relatório " + state.turno + "*");
+    lines.push("*Data:* " + formatBRDate(state.data));
+    var eq = (state.equipe || "").trim();
+    if (eq) {
+      lines.push("*Equipe:* " + eq);
+    }
+
+    if (state.items.length === 0) {
+      lines.push("");
+      lines.push("_Sem ocorrências registradas até o momento._");
+      lines.push("");
+      lines.push("_Criado em TurnoTech_");
+      return lines.join("\n");
+    }
+
+    for (var i = 0; i < AREAS.length; i++) {
+      var area = AREAS[i];
+      var group = [];
+      for (var j = 0; j < state.items.length; j++) {
+        if (state.items[j].area === area) {
+          group.push(state.items[j]);
+        }
+      }
+      if (group.length > 0) {
+        lines.push("");
+        lines.push("*" + area + "*");
+        for (var k = 0; k < group.length; k++) {
+          lines.push("• " + group[k].desc);
+        }
+      }
+    }
+
+    lines.push("");
+    lines.push("_Criado em TurnoTech_");
+    return lines.join("\n");
+  }
+
+  function renderOccurrences() {
+    var box = document.getElementById("occListContainer");
+    var countEl = document.getElementById("countBadge");
+    var total = state.items.length;
+    countEl.textContent = total + (total === 1 ? " ocorrência" : " ocorrências");
+
+    if (total === 0) {
+      box.innerHTML = '<div style="color:#71717a;font-size:13px;padding:6px 0;">Nenhuma ocorrência lançada ainda.</div>';
+    } else {
+      box.innerHTML = "";
+      for (var i = 0; i < AREAS.length; i++) {
+        var area = AREAS[i];
+        var group = [];
+        for (var j = 0; j < state.items.length; j++) {
+          if (state.items[j].area === area) group.push(state.items[j]);
+        }
+        if (group.length === 0) continue;
+
+        var grpDiv = document.createElement("div");
+        grpDiv.className = "occ-group";
+
+        var titleDiv = document.createElement("div");
+        titleDiv.className = "occ-group-title";
+        titleDiv.textContent = "▸ " + area + " (" + group.length + ")";
+        grpDiv.appendChild(titleDiv);
+
+        for (var k = 0; k < group.length; k++) {
+          (function(item) {
+            var row = document.createElement("div");
+            row.className = "occ-item";
+
+            var txt = document.createElement("div");
+            txt.className = "occ-text";
+            txt.textContent = item.desc;
+
+            var acts = document.createElement("div");
+            acts.className = "occ-acts";
+
+            var btnEd = document.createElement("button");
+            btnEd.type = "button";
+            btnEd.className = "mini-btn";
+            btnEd.textContent = "Editar";
+            btnEd.onclick = function() {
+              state.selectedArea = item.area;
+              state.manualAreaLock = true;
+              state.editingId = item.id;
+              document.getElementById("inpDesc").value = item.desc;
+              document.getElementById("editModeLabel").textContent = "Editando item";
+              document.getElementById("btnAddOcc").textContent = "✔ SALVAR ALTERAÇÃO";
+              renderAreas();
+              document.getElementById("inpDesc").focus();
+            };
+
+            var btnRm = document.createElement("button");
+            btnRm.type = "button";
+            btnRm.className = "mini-btn del";
+            btnRm.textContent = "✕";
+            btnRm.onclick = function() {
+              state.items = state.items.filter(function(x) { return x.id !== item.id; });
+              if (state.editingId === item.id) resetEditor();
+              persistAndRender();
+            };
+
+            acts.appendChild(btnEd);
+            acts.appendChild(btnRm);
+            row.appendChild(txt);
+            row.appendChild(acts);
+            grpDiv.appendChild(row);
+          })(group[k]);
+        }
+        box.appendChild(grpDiv);
+      }
+    }
+
+    document.getElementById("previewBox").textContent = buildWhatsAppText();
+  }
+
+  function resetEditor() {
+    state.editingId = null;
+    state.selectedArea = "";
+    state.manualAreaLock = false;
+    document.getElementById("inpDesc").value = "";
+    document.getElementById("editModeLabel").textContent = "";
+    document.getElementById("btnAddOcc").textContent = "+ ADICIONAR OCORRÊNCIA";
+  }
+
+  function persistAndRender() {
+    saveStorage(STORAGE_KEY, state);
+    renderAreas();
+    renderOccurrences();
+  }
+
+  function addOrSaveOccurrence() {
+    var rawText = document.getElementById("inpDesc").value;
+    if (!rawText || !rawText.trim()) {
+      setStatus("Digite ou dite a ocorrência antes de adicionar.", "warn");
+      document.getElementById("inpDesc").focus();
+      return;
+    }
+
+    var area = state.selectedArea || detectAreaFromText(rawText);
+    if (!area) {
+      setStatus("Selecione uma das 9 áreas acima primeiro.", "warn");
+      return;
+    }
+
+    var cleaned = cleanDescription(rawText, area);
+    if (!cleaned) {
+      setStatus("Descreva os detalhes da ocorrência.", "warn");
+      return;
+    }
+
+    var tags = extractTags(cleaned);
+    if (tags.length > 0) {
+      for (var i = 0; i < tags.length; i++) {
+        tagMap[tags[i]] = area;
+      }
+      saveStorage(TAG_MAP_KEY, tagMap);
+    }
+
+    if (state.editingId) {
+      for (var j = 0; j < state.items.length; j++) {
+        if (state.items[j].id === state.editingId) {
+          state.items[j].area = area;
+          state.items[j].desc = cleaned;
+        }
+      }
+      setStatus("Ocorrência atualizada em " + area + ".", "ok");
+    } else {
+      state.items.push({
+        id: "occ_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+        area: area,
+        desc: cleaned
+      });
+      setStatus("Adicionado em " + area + ".", "ok");
+    }
+
+    resetEditor();
+    persistAndRender();
+  }
+
+  function copyTextRobust(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        setStatus("Relatório copiado! Cole no WhatsApp.", "ok");
+      }).catch(function() {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
     }
   }
 
-  function switchTab(tab) {
-    ['register', 'list', 'report'].forEach(t => {
-      $(`tab-${t}`).classList.toggle('hidden', t !== tab);
-    });
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.tab === tab);
-    });
-    if (tab === 'list') renderList();
-    if (tab === 'report') renderReport();
-  }
-
-  function renderManageModal() {
-    const listEl = $('manageAreasList');
-    listEl.innerHTML = '';
-    areas.forEach(a => {
-      const pill = document.createElement('span');
-      pill.className = 'pill';
-      pill.textContent = a;
-      const del = document.createElement('button');
-      del.type = 'button';
-      del.textContent = '×';
-      del.onclick = () => {
-        if (areas.length <= 1) return showToast('Mantenha ao menos 1 área.');
-        areas = areas.filter(x => x !== a);
-        if (selectedAreaInput.value === a) selectArea('');
-        saveAll();
-        renderAreas();
-        renderManageModal();
-      };
-      pill.appendChild(del);
-      listEl.appendChild(pill);
-    });
-
-    const sel = $('importTagAreaSelect');
-    sel.innerHTML = areas.map(a => `<option value="${a}">${a}</option>`).join('');
-
-    const entries = Object.entries(tagMap);
-    $('tagsSummaryBox').textContent = entries.length
-      ? 'TAGs vinculadas: ' + entries.map(([t, a]) => `${t} (${a})`).join(', ')
-      : 'Nenhuma TAG importada ou aprendida ainda.';
-  }
-
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-  });
-
-  shiftSelect.addEventListener('change', () => {
-    const sh = shiftSelect.value;
-    if (isAutoTitle(reportTitleInput.value)) {
-      reportTitleInput.value = getBaseTitleForShift(sh);
-    }
-    if (meta.signaturesByShift && typeof meta.signaturesByShift[sh] === 'string') {
-      signatureInput.value = meta.signaturesByShift[sh];
-    }
-    saveAll();
-    renderReport();
-  });
-
-  headerDateInput.addEventListener('change', () => {
-    reportDateInput.value = headerDateInput.value;
-    saveAll();
-    renderReport();
-  });
-
-  reportDateInput.addEventListener('change', () => {
-    headerDateInput.value = reportDateInput.value;
-    saveAll();
-    renderReport();
-  });
-
-  reportTitleInput.addEventListener('input', () => { saveAll(); renderReport(); });
-  signatureInput.addEventListener('input', () => { saveAll(); renderReport(); });
-
-  $('btnRecordAudio').addEventListener('click', toggleAudioRecording);
-  $('btnLiveSpeech').addEventListener('click', toggleLiveSpeech);
-  $('btnKeyboardMic').addEventListener('click', () => {
-    rawInput.focus();
-    voiceStatus.textContent = 'Toque no ícone de microfone do teclado do celular para ditar.';
-  });
-  $('clearRawBtn').addEventListener('click', () => {
-    rawInput.value = '';
-    voiceStatus.textContent = '';
-  });
-
-  $('btnOpenAiKey').addEventListener('click', () => $('aiKeyModal').classList.remove('hidden'));
-  $('btnCloseAiKey').addEventListener('click', () => $('aiKeyModal').classList.add('hidden'));
-  $('btnSaveAiKey').addEventListener('click', () => {
-    userApiKey = $('geminiApiKeyInput').value.trim();
-    safeStorage.set('tt_gemini_key', userApiKey);
-    $('aiKeyModal').classList.add('hidden');
-    showToast(userApiKey ? 'Chave de Voz IA salva!' : 'Chave removida.');
-  });
-
-  $('btnProcess').addEventListener('click', processInputText);
-  $('btnSaveOccurrence').addEventListener('click', saveOccurrence);
-  $('btnCancelEdit').addEventListener('click', cancelEdit);
-
-  $('btnCopyReport').addEventListener('click', () => {
-    const text = buildReportText();
-    const ta = document.createElement('textarea');
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
     ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
     document.body.appendChild(ta);
+    ta.focus();
     ta.select();
     try {
-      document.execCommand('copy');
-      showToast('Relatório copiado!');
+      document.execCommand("copy");
+      setStatus("Relatório copiado! Cole no WhatsApp.", "ok");
     } catch (e) {
-      showToast('Selecione e copie o texto acima.');
+      setStatus("Não foi possível copiar automaticamente. Selecione o texto na prévia.", "warn");
     }
     document.body.removeChild(ta);
-  });
+  }
 
-  let confirmReset = false;
-  $('btnNewShift').addEventListener('click', () => {
-    const btn = $('btnNewShift');
-    if (!confirmReset) {
-      confirmReset = true;
-      btn.textContent = 'Toque novamente para confirmar limpeza';
-      setTimeout(() => {
-        confirmReset = false;
-        btn.textContent = 'Iniciar Novo Turno';
-      }, 3500);
+  var recognition = null;
+  var isListening = false;
+
+  function setupLiveSpeech() {
+    var btn = document.getElementById("btnSpeechLive");
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      btn.onclick = function() {
+        setStatus("Ditado direto indisponível em arquivo local. Use o microfone do seu teclado.", "warn");
+        document.getElementById("inpDesc").focus();
+      };
       return;
     }
-    confirmReset = false;
-    btn.textContent = 'Iniciar Novo Turno';
-    items = [];
-    const today = new Date().toISOString().slice(0, 10);
-    headerDateInput.value = today;
-    reportDateInput.value = today;
-    saveAll();
-    renderList();
-    renderReport();
-    showToast('Novo turno iniciado!');
-  });
 
-  $('btnOpenManage').addEventListener('click', () => {
-    renderManageModal();
-    $('manageModal').classList.remove('hidden');
-  });
-  $('btnCloseManage').addEventListener('click', () => $('manageModal').classList.add('hidden'));
+    recognition = new SR();
+    recognition.lang = "pt-BR";
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
-  $('btnAddArea').addEventListener('click', () => {
-    const val = $('newAreaInput').value.trim();
-    if (!val) return;
-    if (!areas.includes(val)) {
-      areas.push(val);
-      saveAll();
-      renderAreas();
-      renderManageModal();
-    }
-    $('newAreaInput').value = '';
-  });
-
-  $('importTagsFile').addEventListener('change', (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      $('importTagsText').value = String(ev.target?.result || '');
+    recognition.onstart = function() {
+      isListening = true;
+      btn.classList.add("recording");
+      btn.textContent = "⏹️ Ouvindo... Fale";
+      setStatus("Fale a área e a ocorrência...", "warn");
     };
-    reader.readAsText(file);
-  });
 
-  $('btnImportTags').addEventListener('click', () => {
-    const targetArea = $('importTagAreaSelect').value;
-    const raw = $('importTagsText').value;
-    const tokens = normalizeTagsInText(raw)
-      .split(/[\s,;|\n\r]+/)
-      .map(t => t.trim().toUpperCase())
-      .filter(t => /^[0-9A-Z-]{3,15}$/.test(t) && /\d/.test(t) && /[A-Z]/.test(t));
+    recognition.onresult = function(ev) {
+      var transcript = ev.results[0][0].transcript || "";
+      var descEl = document.getElementById("inpDesc");
+      descEl.value = (descEl.value ? descEl.value + " " : "") + transcript;
+      if (!state.manualAreaLock) {
+        var autoArea = detectAreaFromText(descEl.value);
+        if (autoArea) {
+          state.selectedArea = autoArea;
+          renderAreas();
+          setStatus("Área detectada: " + autoArea + ". Revise e adicione.", "ok");
+          return;
+        }
+      }
+      setStatus("Texto capturado! Revise e toque em Adicionar.", "ok");
+    };
 
-    if (!tokens.length) {
-      showToast('Nenhuma TAG válida encontrada.');
+    recognition.onerror = function(ev) {
+      setStatus("Microfone bloqueado em arquivo local (" + ev.error + "). Use o microfone do teclado!", "warn");
+    };
+
+    recognition.onend = function() {
+      isListening = false;
+      btn.classList.remove("recording");
+      btn.textContent = "🎙️ Ditado ao Vivo";
+    };
+
+    btn.onclick = function() {
+      if (isListening) {
+        recognition.stop();
+      } else {
+        try {
+          recognition.start();
+        } catch (e) {
+          setStatus("Use o microfone do teclado do celular para ditar.", "warn");
+        }
+      }
+    };
+  }
+
+  var mediaRecorder = null;
+  var audioChunks = [];
+  var isRecordingAI = false;
+
+  function setupVoiceAI() {
+    var btn = document.getElementById("btnVoiceAI");
+    btn.onclick = function() {
+      var apiKey = "";
+      try { apiKey = localStorage.getItem(API_KEY_STORAGE) || ""; } catch (e) {}
+      if (!apiKey) {
+        document.getElementById("modalSettings").classList.add("open");
+        setStatus("Configure sua chave em Voz IA primeiro.", "warn");
+        return;
+      }
+
+      if (isRecordingAI && mediaRecorder) {
+        mediaRecorder.stop();
+        return;
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setStatus("Gravação direta exige link HTTPS (GitHub Pages). Use o microfone do teclado!", "warn");
+        return;
+      }
+
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = function(e) {
+          if (e.data && e.data.size > 0) audioChunks.push(e.data);
+        };
+        mediaRecorder.onstop = function() {
+          isRecordingAI = false;
+          btn.classList.remove("recording");
+          btn.textContent = "✨ Voz IA (Gemini)";
+          stream.getTracks().forEach(function(t) { t.stop(); });
+          var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+          sendAudioToGemini(blob, apiKey);
+        };
+        mediaRecorder.start();
+        isRecordingAI = true;
+        btn.classList.add("recording");
+        btn.textContent = "⏹️ Parar & Processar";
+        setStatus("Gravando áudio para IA... Toque novamente para enviar.", "warn");
+      }).catch(function() {
+        setStatus("Chrome bloqueia microfone em arquivo local. Use o mic do teclado ou suba no GitHub.", "warn");
+      });
+    };
+  }
+
+  function sendAudioToGemini(blob, apiKey) {
+    setStatus("Processando áudio com Gemini IA...", "warn");
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      var base64 = reader.result.split(",")[1];
+      var mime = blob.type || "audio/webm";
+      var prompt = "Você é um assistente de manutenção industrial. Transcreva e organize este áudio em JSON puro (sem markdown) no formato: " +
+        '{"area": "uma das seguintes áreas exatas ou vazio: Lixadeira, Carro Satélite, Wenhoner, BP1, Etiquetadora, Plastificadora, Fábrica de Calço, Embalagem, Impregnadora", "descricao": "descrição técnica clara e objetiva sem repetir o nome da área no início, mantendo TAGs como 5480B21 em maiúsculo"}.';
+
+      var isVertexExpress = apiKey.indexOf("AQ.") === 0;
+      var endpoint = isVertexExpress
+        ? "https://aiplatform.googleapis.com/v1/publishers/google/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey)
+        : "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey);
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            role: "user",
+            parts: [
+              { text: prompt },
+              { inline_data: { mime_type: mime, data: base64 } }
+            ]
+          }]
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          setStatus("Erro API Gemini: " + (data.error.message || "verifique sua chave"), "warn");
+          return;
+        }
+        var txt = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text;
+        if (!txt) {
+          setStatus("IA não retornou texto.", "warn");
+          return;
+        }
+        var cleanJson = txt.replace(/```json|```/g, "").trim();
+        var parsed = JSON.parse(cleanJson);
+        if (parsed.area && AREAS.indexOf(parsed.area) !== -1) {
+          state.selectedArea = parsed.area;
+          state.manualAreaLock = false;
+          renderAreas();
+        }
+        if (parsed.descricao) {
+          document.getElementById("inpDesc").value = parsed.descricao;
+        }
+        setStatus("Áudio transcrito pela IA! Confira e adicione.", "ok");
+      })
+      .catch(function() {
+        setStatus("Falha ao processar resposta da IA. Verifique internet ou chave.", "warn");
+      });
+    };
+    reader.readAsDataURL(blob);
+  }
+
+  function handleDescriptionInput() {
+    var val = document.getElementById("inpDesc").value;
+    if (!val || !val.trim()) {
+      if (!state.manualAreaLock && state.selectedArea) {
+        state.selectedArea = "";
+        renderAreas();
+      }
       return;
     }
-    tokens.forEach(t => { tagMap[t] = targetArea; });
-    $('importTagsText').value = '';
-    saveAll();
-    renderAreas();
-    renderManageModal();
-    showToast(`${tokens.length} TAGs salvas em ${targetArea}!`);
-  });
+    if (!state.manualAreaLock) {
+      var found = detectAreaFromText(val);
+      if (found && found !== state.selectedArea) {
+        state.selectedArea = found;
+        renderAreas();
+        setStatus("Área detectada automaticamente: " + found, "ok");
+      }
+    }
+  }
 
-  loadState();
-  renderAreas();
-  renderList();
-  renderReport();
+  function init() {
+    var badge = document.getElementById("jsBadge");
+    if (badge) {
+      badge.textContent = "● ATIVO";
+      badge.classList.add("ready");
+    }
+
+    var saved = loadStorage(STORAGE_KEY, null);
+    tagMap = loadStorage(TAG_MAP_KEY, {});
+
+    if (saved) {
+      state.turno = saved.turno || "Turno A1";
+      state.data = saved.data || todayISO();
+      state.equipe = saved.equipe || "";
+      state.selectedArea = "";
+      state.manualAreaLock = false;
+      state.items = Array.isArray(saved.items) ? saved.items : [];
+    } else {
+      state.data = todayISO();
+    }
+
+    var selTurno = document.getElementById("selTurno");
+    var inpData = document.getElementById("inpData");
+    var inpEquipe = document.getElementById("inpEquipe");
+
+    selTurno.value = state.turno;
+    inpData.value = state.data;
+    inpEquipe.value = state.equipe;
+
+    selTurno.onchange = function() {
+      state.turno = selTurno.value;
+      persistAndRender();
+    };
+    inpData.onchange = function() {
+      state.data = inpData.value || todayISO();
+      persistAndRender();
+    };
+    inpEquipe.oninput = function() {
+      state.equipe = inpEquipe.value;
+      persistAndRender();
+    };
+
+    var descEl = document.getElementById("inpDesc");
+    descEl.addEventListener("input", handleDescriptionInput);
+    descEl.addEventListener("change", handleDescriptionInput);
+    descEl.addEventListener("compositionend", handleDescriptionInput);
+
+    document.getElementById("btnAddOcc").onclick = addOrSaveOccurrence;
+
+    document.getElementById("btnClearAll").onclick = function() {
+      var btn = document.getElementById("btnClearAll");
+      if (!clearArmed) {
+        clearArmed = true;
+        btn.textContent = "Confirmar Limpar?";
+        clearConfirmTimer = setTimeout(function() {
+          clearArmed = false;
+          btn.textContent = "Limpar Turno";
+        }, 3500);
+      } else {
+        clearTimeout(clearConfirmTimer);
+        clearArmed = false;
+        btn.textContent = "Limpar Turno";
+        state.items = [];
+        resetEditor();
+        persistAndRender();
+        setStatus("Ocorrências do turno limpas.", "ok");
+      }
+    };
+
+    document.getElementById("btnCopy").onclick = function() {
+      copyTextRobust(buildWhatsAppText());
+    };
+
+    document.getElementById("btnWhatsApp").onclick = function() {
+      var text = buildWhatsAppText();
+      var url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    };
+
+    var modal = document.getElementById("modalSettings");
+    var inpKey = document.getElementById("inpApiKey");
+    document.getElementById("btnOpenSettings").onclick = function() {
+      try { inpKey.value = localStorage.getItem(API_KEY_STORAGE) || ""; } catch (e) {}
+      modal.classList.add("open");
+    };
+    document.getElementById("btnCloseModal").onclick = function() {
+      modal.classList.remove("open");
+    };
+    document.getElementById("btnToggleKey").onclick = function() {
+      inpKey.type = inpKey.type === "password" ? "text" : "password";
+      this.textContent = inpKey.type === "password" ? "Mostrar" : "Ocultar";
+    };
+    document.getElementById("btnSaveKey").onclick = function() {
+      try {
+        localStorage.setItem(API_KEY_STORAGE, inpKey.value.trim());
+        setStatus("Chave API salva com sucesso!", "ok");
+      } catch (e) {
+        setStatus("Não foi possível salvar no armazenamento local.", "warn");
+      }
+      modal.classList.remove("open");
+    };
+
+    setupLiveSpeech();
+    setupVoiceAI();
+    renderAreas();
+    renderOccurrences();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
 </script>
 </body>
