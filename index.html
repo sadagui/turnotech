@@ -294,9 +294,9 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
-      padding: 10px 8px;
+      padding: 11px 8px;
       border-radius: 9px;
-      font-size: 0.83rem;
+      font-size: 0.84rem;
       font-weight: 700;
       text-align: center;
       cursor: pointer;
@@ -307,6 +307,7 @@
       justify-content: center;
       gap: 3px;
       position: relative;
+      min-height: 44px;
     }
 
     .area-btn .area-tag-meta {
@@ -616,7 +617,7 @@
       </div>
     </section>
 
-    <!-- Etapa 1: Seleção de Área (Busca + Atalho Inteligente + Cadastro) -->
+    <!-- Etapa 1: Seleção de Área (Busca + Sugestões + Cadastro) -->
     <section class="card">
       <div class="section-title">
         <span><span class="step-badge">ETAPA 1</span>Área / Linha</span>
@@ -629,7 +630,7 @@
           type="text"
           id="areaSearchInput"
           class="area-search-input"
-          placeholder="Buscar ou adicionar área (ex: Schrader, Xiraider, Secador...)"
+          placeholder="Buscar ou adicionar área"
           autocomplete="off"
         />
         <button
@@ -642,7 +643,7 @@
       </div>
 
       <div class="shortcut-hint" id="areaGridHint">
-        <span id="areaGridHintText">Atalho rápido: 3 mais usadas + 3 últimas</span>
+        <span id="areaGridHintText">Áreas sugeridas:</span>
         <button type="button" class="toggle-all-btn" id="toggleAllAreasBtn" onclick="toggleShowAllAreas()">
           Ver todas
         </button>
@@ -652,7 +653,7 @@
       <div id="addAreaSuggestionSlot"></div>
     </section>
 
-    <!-- Etapa 2: Ocorrência & Ditado por Voz -->
+    <!-- Etapa 2: Ocorrência & Transcrição por Voz -->
     <section class="card">
       <div class="section-title">
         <span><span class="step-badge">ETAPA 2</span>Ocorrência / Atividade</span>
@@ -663,7 +664,7 @@
       <div class="tag-suggestions" id="tagSuggestions"></div>
 
       <button type="button" class="voice-btn" id="voiceBtn" onclick="toggleVoiceDictation()">
-        🎙️ Ditado ao Vivo (Grátis)
+        🎙️ Transcrever fala
       </button>
       <div class="voice-status" id="voiceStatus">Dica: Fale o nome da área primeiro (ex: "Wemhoner, troca de válvula..." ou "Schrader...")</div>
 
@@ -741,7 +742,7 @@
       "Linha de formação": ["linha formacao", "formacao"]
     };
 
-    const DEFAULT_TECHS = ["Geisse", "Samuel", "Takao", "Luan"];
+    const DEFAULT_TECHS = ["Geisse", "Samuel", "Takao"];
 
     // =========================================================
     // 2. MOTOR FONÉTICO PARA RECONHECIMENTO DE VOZ (PT-BR)
@@ -954,15 +955,27 @@
 
     function loadState() {
       try {
-        const savedV3 = localStorage.getItem("turnotech_state_v3");
-        const savedV2 = localStorage.getItem("turnotech_state_v2");
-        const raw = savedV3 || savedV2;
-        if (raw) {
-          const parsed = JSON.parse(raw);
+        const savedV4 = localStorage.getItem("turnotech_state_v4");
+        const savedLegacy =
+          localStorage.getItem("turnotech_state_v3") ||
+          localStorage.getItem("turnotech_state_v2");
+
+        if (savedV4) {
+          const parsed = JSON.parse(savedV4);
           state = { ...state, ...parsed };
+        } else if (savedLegacy) {
+          const parsed = JSON.parse(savedLegacy);
+          state = { ...state, ...parsed };
+          // Remove Luan das sugestões antigas migradas
+          state.techList = (state.techList || []).filter((t) => normalizeStr(t) !== "luan");
+          state.activeTechs = (state.activeTechs || []).filter((t) => normalizeStr(t) !== "luan");
+          saveState();
         }
       } catch (e) {
         console.warn("Erro ao carregar estado:", e);
+      }
+      if (!Array.isArray(state.techList) || state.techList.length === 0) {
+        state.techList = [...DEFAULT_TECHS];
       }
       if (!Array.isArray(state.customAreas)) state.customAreas = [];
       if (!state.areaStats || typeof state.areaStats !== "object") state.areaStats = {};
@@ -973,7 +986,7 @@
 
     function saveState() {
       try {
-        localStorage.setItem("turnotech_state_v3", JSON.stringify(state));
+        localStorage.setItem("turnotech_state_v4", JSON.stringify(state));
       } catch (e) {
         console.warn("Erro ao salvar estado:", e);
       }
@@ -1098,14 +1111,14 @@
     }
 
     // =========================================================
-    // 5. ATALHOS INTELIGENTES (3 MAIS USADAS + 3 ÚLTIMAS) & BUSCA
+    // 5. SUGESTÕES RÁPIDAS DE ÁREA & BUSCA
     // =========================================================
     function getSmartShortcuts() {
       const allAreas = getAllAreas();
       const result = [];
       const chosen = new Set();
 
-      // 1. Top 3 mais usadas (ordenadas por quantidade de ocorrências registradas)
+      // 1. Top 3 frequentes (ordenadas por quantidade de ocorrências registradas)
       const byFrequency = [...allAreas]
         .filter((a) => (state.areaStats[a]?.count || 0) > 0)
         .sort((a, b) => {
@@ -1117,14 +1130,10 @@
       for (const area of byFrequency) {
         if (result.length >= 3) break;
         chosen.add(area);
-        const cnt = state.areaStats[area].count;
-        result.push({
-          area,
-          badge: `★ ${cnt}x usada${cnt > 1 ? "s" : ""}`
-        });
+        result.push({ area, badge: "" });
       }
 
-      // 2. Top 3 últimas citadas/selecionadas (sem repetir as 3 mais usadas)
+      // 2. Top 3 últimas citadas/selecionadas (sem repetir as 3 frequentes)
       const byRecent = [...allAreas]
         .filter((a) => !chosen.has(a) && (state.areaStats[a]?.lastUsed || 0) > 0)
         .sort((a, b) => (state.areaStats[b]?.lastUsed || 0) - (state.areaStats[a]?.lastUsed || 0));
@@ -1132,22 +1141,15 @@
       for (const area of byRecent) {
         if (result.length >= 6) break;
         chosen.add(area);
-        result.push({
-          area,
-          badge: "🕒 Última citada"
-        });
+        result.push({ area, badge: "" });
       }
 
-      // 3. Caso o app seja recém-instalado e ainda não tenha 6 registros no histórico,
-      // completa até 6 com áreas principais da planta sem duplicar
+      // 3. Completa até 6 com áreas principais da planta sem duplicar
       for (const area of allAreas) {
         if (result.length >= 6) break;
         if (!chosen.has(area)) {
           chosen.add(area);
-          result.push({
-            area,
-            badge: "Atalho"
-          });
+          result.push({ area, badge: "" });
         }
       }
 
@@ -1251,8 +1253,8 @@
       } else if (showAllAreas) {
         // Modo Lista Completa (todas as 25+ áreas)
         toggleBtn.style.display = "inline";
-        toggleBtn.textContent = "Voltar aos 6 atalhos";
-        hintText.textContent = `Todas as áreas cadastradas (${allAreas.length}):`;
+        toggleBtn.textContent = "Ocultar lista completa";
+        hintText.textContent = `Todas as áreas (${allAreas.length}):`;
 
         allAreas.forEach((area) => {
           const isCustom = state.customAreas.includes(area);
@@ -1262,10 +1264,10 @@
           grid.appendChild(btn);
         });
       } else {
-        // Modo Padrão: 6 Atalhos Inteligentes (3 mais usadas + 3 últimas citadas)
+        // Modo Padrão: 6 sugestões rápidas de área
         toggleBtn.style.display = "inline";
         toggleBtn.textContent = `Ver todas (${allAreas.length})`;
-        hintText.textContent = "Atalho rápido (3 mais usadas + 3 últimas):";
+        hintText.textContent = "Áreas sugeridas:";
 
         const shortcuts = getSmartShortcuts();
         shortcuts.forEach((item) => {
@@ -1426,7 +1428,7 @@
     }
 
     // =========================================================
-    // 7. DITADO POR VOZ NATIVO (SEM API PAGA / SEM GAMBIARRA)
+    // 7. TRANSCRIÇÃO POR VOZ NATIVA
     // =========================================================
     let recognition = null;
     let isRecording = false;
@@ -1436,7 +1438,7 @@
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
       if (!SpeechRecognition) {
-        alert("Seu navegador não suporta ditado por voz nativo. Use o Google Chrome no Android.");
+        alert("Seu navegador não suporta transcrição de fala nativa. Use o Google Chrome no Android.");
         return;
       }
 
@@ -1487,7 +1489,7 @@
       recognition.onend = () => {
         isRecording = false;
         btn.classList.remove("recording");
-        btn.textContent = "🎙️ Ditado ao Vivo (Grátis)";
+        btn.textContent = "🎙️ Transcrever fala";
       };
 
       recognition.start();
@@ -1502,7 +1504,7 @@
       let text = textarea.value.trim();
 
       if (!area) {
-        alert("Selecione uma Área na Etapa 1 (ou fale o nome da área no ditado).");
+        alert("Selecione uma Área na Etapa 1 (ou fale o nome da área no microfone).");
         return;
       }
       if (!text) {
@@ -1585,16 +1587,21 @@
 
     function buildWhatsAppReport() {
       const dateStr = formatDateBR(state.date);
+      const shiftLabel = ["A1", "A2", "B1", "B2"].includes(state.shift)
+        ? `Turno ${state.shift}`
+        : state.shift;
       const teamStr =
-        state.activeTechs.length > 0 ? state.activeTechs.join(" / ") : "Não informada";
+        state.activeTechs.length > 0 ? state.activeTechs.join(" / ") : "Não informados";
 
       let lines = [
-        `*🔧 RELATÓRIO DE TURNO — MANUTENÇÃO*`,
-        `*Turno:* ${state.shift}  |  *Data:* ${dateStr}`,
-        `━━━━━━━━━━━━━━━━━━━━━━`
+        `🧰 *Relatório de Atividades* 🧰`,
+        `*Data -* ${dateStr}`,
+        `*Equipe:* ${shiftLabel}`,
+        `*Responsáveis:* ${teamStr}`
       ];
 
       if (state.occurrences.length === 0) {
+        lines.push(``);
         lines.push(`• Sem ocorrências registradas até o momento.`);
       } else {
         const grouped = {};
@@ -1605,7 +1612,7 @@
 
         Object.keys(grouped).forEach((area) => {
           lines.push(``);
-          lines.push(`*📍 ${area.toUpperCase()}*`);
+          lines.push(`*${area}*`);
           grouped[area].forEach((txt) => {
             lines.push(`• ${txt}`);
           });
@@ -1613,9 +1620,7 @@
       }
 
       lines.push(``);
-      lines.push(`━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`*👷 Equipe:* ${teamStr}`);
-      lines.push(`_TurnoTech • Registro de Manutenção_`);
+      lines.push(`_Criado com TurnoTech_`);
 
       return lines.join("\n");
     }
