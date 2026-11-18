@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>TurnoTech Manutenção</title>
+<style>
+  :root {
+    --bg: #000000;
+    --card: #111317;
+    --card-2: #181b20;
+    --border: #27272a;
+    --yellow: #facc15;
+    --yellow-dark: #eab308;
+    --text: #ffffff;
+    --muted: #a1a1aa;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 12px 14px 96px;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-text { display: flex; flex-direction: column; }
+  .brand-title {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .brand-title span { color: var(--yellow); }
+  .brand-sub {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .top-actions { display: flex; align-items: center; gap: 6px; }
+  .status-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+  .status-pill.ready {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+    border-color: rgba(34, 197, 94, 0.4);
+  }
+  .icon-btn {
+    background: var(--card-2);
+    color: var(--yellow);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .icon-btn:active { transform: scale(0.97); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px;
+    margin-bottom: 12px;
+  }
+  .sec-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 9px;
+  }
+  .sec-label small {
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  label.fld-lbl {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  select, input[type="date"], input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    background: #090a0d;
+    color: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 11px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+  }
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--yellow);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 82px;
+  }
+  .area-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .area-btn {
+    background: #090a0d;
+    color: #e4e4e7;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    line-height: 1.2;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .area-btn.active {
+    background: var(--yellow);
+    color: #000000;
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.25);
+  }
+  .voice-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-voice {
+    background: var(--card-2);
+    color: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-voice.recording {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: var(--red);
+    color: #fca5a5;
+  }
+  .btn-primary {
+    width: 100%;
+    margin-top: 10px;
+    background: var(--yellow);
+    color: #000000;
+    border: none;
+    border-radius: 11px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+  }
+  .btn-primary:active { background: var(--yellow-dark); transform: scale(0.99); }
+  .hint-box {
+    margin-top: 7px;
+    font-size: 11px;
+    color: var(--muted);
+    min-height: 16px;
+  }
+  .hint-box.ok { color: var(--green); font-weight: 600; }
+  .hint-box.warn { color: var(--yellow); font-weight: 600; }
+  .occ-group { margin-bottom: 10px; }
+  .occ-group-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .occ-item {
+    background: #090a0d;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--yellow);
+    border-radius: 9px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .occ-text {
+    font-size: 13.5px;
+    color: #f4f4f5;
+    word-break: break-word;
+    flex: 1;
+  }
+  .occ-acts { display: flex; gap: 4px; flex-shrink: 0; }
+  .mini-btn {
+    background: var(--card-2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 4px 7px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .mini-btn.del { color: #f87171; }
+  .preview-box {
+    background: #090a0d;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12.5px;
+    color: #e4e4e7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .bottom-bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.94);
+    border-top: 1px solid var(--border);
+    padding: 10px 14px;
+    z-index: 50;
+  }
+  .bottom-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 8px;
+  }
+  .btn-copy {
+    background: var(--card-2);
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    border-radius: 11px;
+    padding: 12px 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .btn-wpp {
+    background: #22c55e;
+    color: #000000;
+    border: none;
+    border-radius: 11px;
+    padding: 12px 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-bg.open { display: flex; }
+  .modal-card {
+    background: var(--card);
+    border: 1px solid var(--yellow);
+    border-radius: 14px;
+    padding: 16px;
+    width: 100%;
+    max-width: 460px;
+  }
+  .modal-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+  .modal-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .modal-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: flex-end;
+  }
+  .nojs-warn {
+    background: #7f1d1d;
+    color: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <noscript>
+    <div class="nojs-warn">
+      ⚠️ Este visualizador bloqueou o JavaScript. Toque nos 3 pontinhos (⋮) e escolha "Abrir no Google Chrome" para o aplicativo funcionar.
+    </div>
+  </noscript>
+
+  <div class="topbar">
+    <div class="brand">
+      <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="44" height="44" rx="11" fill="#FACC15"/>
+        <path d="M24 11L26.2 14.3L30.1 13.5L30.6 17.4L34.3 18.8L32.8 22.5L35 25.8L31.8 28.2L32.2 32.1L28.3 32.7L26.6 36.3L23.1 34.7L19.6 36.3L17.9 32.7L14 32.1L14.4 28.2L11.2 25.8L13.4 22.5L11.9 18.8L15.6 17.4L16.1 13.5L20 14.3L22.2 11H24Z" fill="#000000"/>
+        <circle cx="23.1" cy="24" r="5.2" fill="#FACC15"/>
+        <circle cx="23.1" cy="24" r="2.2" fill="#000000"/>
+      </svg>
+      <div class="brand-text">
+        <div class="brand-title">Turno<span>Tech</span></div>
+        <div class="brand-sub">MANUTENÇÃO</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span id="jsBadge" class="status-pill">● CARREGANDO</span>
+      <button type="button" class="icon-btn" id="btnOpenSettings">⚙️ Voz IA</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Identificação do Turno</span>
+      <small id="countBadge">0 ocorrências</small>
+    </div>
+    <div class="row-2">
+      <div>
+        <label class="fld-lbl" for="selTurno">Turno</label>
+        <select id="selTurno">
+          <option value="Turno A1">Turno A1</option>
+          <option value="Turno A2">Turno A2</option>
+          <option value="Turno B1">Turno B1</option>
+          <option value="Turno B2">Turno B2</option>
+          <option value="Acabamento">Acabamento</option>
+          <option value="Utilidades/Predial">Utilidades/Predial</option>
+        </select>
+      </div>
+      <div>
+        <label class="fld-lbl" for="inpData">Data</label>
+        <input type="date" id="inpData">
+      </div>
+    </div>
+    <div>
+      <label class="fld-lbl" for="inpEquipe">Equipe (opcional — não sai se vazio)</label>
+      <input type="text" id="inpEquipe" placeholder="Pelé / Maradona / Ronaldinho">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>1. Selecione a Área</span>
+      <small id="selectedAreaLabel">Nenhuma selecionada</small>
+    </div>
+    <div class="area-grid" id="areaGrid"></div>
+
+    <div class="sec-label" style="margin-top:14px;">
+      <span>2. Ocorrência Detalhada</span>
+      <small id="editModeLabel"></small>
+    </div>
+    <textarea id="inpDesc" placeholder="Descreva o problema, TAG (ex: 5480B21) e o serviço realizado..."></textarea>
+
+    <div class="voice-row">
+      <button type="button" class="btn-voice" id="btnSpeechLive">🎙️ Ditado ao Vivo</button>
+      <button type="button" class="btn-voice" id="btnVoiceAI">✨ Voz IA (Gemini)</button>
+    </div>
+    <div id="statusMsg" class="hint-box">Dica: Você também pode usar o microfone do teclado do celular.</div>
+
+    <button type="button" class="btn-primary" id="btnAddOcc">+ ADICIONAR OCORRÊNCIA</button>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Ocorrências Registradas</span>
+      <button type="button" class="mini-btn del" id="btnClearAll">Limpar Turno</button>
+    </div>
+    <div id="occListContainer"></div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">
+      <span>Prévia WhatsApp</span>
+      <small>Formatação pronta</small>
+    </div>
+    <div class="preview-box" id="previewBox"></div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-inner">
+    <button type="button" class="btn-copy" id="btnCopy">📋 Copiar Texto</button>
+    <button type="button" class="btn-wpp" id="btnWhatsApp">📲 Enviar WhatsApp</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalSettings">
+  <div class="modal-card">
+    <div class="modal-title">⚙️ Configurar Voz IA (Google)</div>
+    <div class="modal-desc">
+      Cole sua chave da API Gemini (começa com <b>AIza...</b> ou <b>AQ....</b>). Ela fica salva apenas neste aparelho.
+    </div>
+    <label class="fld-lbl" for="inpApiKey">Chave API (AIza... ou AQ....)</label>
+    <input type="password" id="inpApiKey" placeholder="AIzaSy... ou AQ.Ab8...">
+    <div class="modal-btns">
+      <button type="button" class="mini-btn" id="btnToggleKey">Mostrar</button>
+      <button type="button" class="mini-btn" id="btnCloseModal">Fechar</button>
+      <button type="button" class="icon-btn" style="background:#facc15;color:#000;" id="btnSaveKey">Salvar Chave</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  var AREAS = [
+    "Lixadeira",
+    "Carro Satélite",
+    "Wenhoner",
+    "BP1",
+    "Etiquetadora",
+    "Plastificadora",
+    "Fábrica de Calço",
+    "Embalagem",
+    "Impregnadora"
+  ];
+
+  // Alias list ordered from longest to shortest so specific phrases match first
+  var AREA_ALIASES = [
+    ["fabrica de calco", "Fábrica de Calço"],
+    ["fabrica de calcos", "Fábrica de Calço"],
+    ["fabrica calco", "Fábrica de Calço"],
+    ["carro satelite", "Carro Satélite"],
+    ["carros satelite", "Carro Satélite"],
+    ["carro de satelite", "Carro Satélite"],
+    ["ciclo curto", "Wenhoner"],
+    ["plastificadora", "Plastificadora"],
+    ["etiquetadora", "Etiquetadora"],
+    ["etiquetadeira", "Etiquetadora"],
+    ["impregnadora", "Impregnadora"],
+    ["lixadeira", "Lixadeira"],
+    ["embalagem", "Embalagem"],
+    ["embaladora", "Embalagem"],
+    ["satelite", "Carro Satélite"],
+    ["wenhoner", "Wenhoner"],
+    ["wemhoner", "Wenhoner"],
+    ["venhoner", "Wenhoner"],
+    ["vem honer", "Wenhoner"],
+    ["ven honer", "Wenhoner"],
+    ["wenoner", "Wenhoner"],
+    ["venoner", "Wenhoner"],
+    ["vernoner", "Wenhoner"],
+    ["prensa", "Wenhoner"],
+    ["wemo", "Wenhoner"],
+    ["vemo", "Wenhoner"],
+    ["b p 1", "BP1"],
+    ["b p um", "BP1"],
+    ["bp 1", "BP1"],
+    ["bp-1", "BP1"],
+    ["bp um", "BP1"],
+    ["bebe 1", "BP1"],
+    ["bp1", "BP1"],
+    ["calco", "Fábrica de Calço"],
+    ["calcos", "Fábrica de Calço"]
+  ];
+
+  var STORAGE_KEY = "turnotech_manut_v3";
+  var TAG_MAP_KEY = "turnotech_tag_map_v1";
+  var API_KEY_STORAGE = "turnotech_gemini_key";
+
+  var state = {
+    turno: "Turno A1",
+    data: "",
+    equipe: "",
+    selectedArea: "",
+    manualAreaLock: false,
+    editingId: null,
+    items: []
+  };
+
+  var tagMap = {};
+  var clearConfirmTimer = null;
+  var clearArmed = false;
+
+  function loadStorage(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+  function saveStorage(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {}
+  }
+
+  function todayISO() {
+    var d = new Date();
+    var off = d.getTimezoneOffset();
+    var local = new Date(d.getTime() - off * 60000);
+    return local.toISOString().slice(0, 10);
+  }
+
+  function formatBRDate(iso) {
+    if (!iso || iso.indexOf("-") === -1) return "";
+    var p = iso.split("-");
+    return p[2] + "/" + p[1] + "/" + p[0];
+  }
+
+  function setStatus(msg, type) {
+    var el = document.getElementById("statusMsg");
+    el.textContent = msg;
+    el.className = "hint-box" + (type ? " " + type : "");
+  }
+
+  function normalizeStr(s) {
+    return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function extractTags(text) {
+    var matches = (text || "").toUpperCase().match(/\b[0-9]{2,5}[A-Z]{1,3}[0-9]{1,4}\b/g);
+    return matches || [];
+  }
+
+  function detectAreaFromText(text) {
+    var tags = extractTags(text);
+    for (var i = 0; i < tags.length; i++) {
+      if (tagMap[tags[i]]) return tagMap[tags[i]];
+    }
+    var norm = normalizeStr(text);
+    for (var j = 0; j < AREA_ALIASES.length; j++) {
+      var alias = AREA_ALIASES[j][0];
+      var targetArea = AREA_ALIASES[j][1];
+      if (norm.indexOf(alias) !== -1) {
+        return targetArea;
+      }
+    }
+    return "";
+  }
+
+  function cleanDescription(text, area) {
+    var t = (text || "").trim();
+    if (!t) return "";
+    if (area) {
+      // Strip official area name or matching spoken alias at the beginning of the sentence
+      var candidates = [area];
+      for (var i = 0; i < AREA_ALIASES.length; i++) {
+        if (AREA_ALIASES[i][1] === area) {
+          candidates.push(AREA_ALIASES[i][0]);
+        }
+      }
+      var normStart = normalizeStr(t);
+      var prefixMatch = normStart.match(/^(?:na|no|em|da|do|area)?\s*/);
+      var prefixLen = prefixMatch ? prefixMatch[0].length : 0;
+      var restNorm = normStart.slice(prefixLen);
+
+      for (var j = 0; j < candidates.length; j++) {
+        var candNorm = normalizeStr(candidates[j]);
+        if (restNorm.indexOf(candNorm) === 0) {
+          var afterCand = restNorm.slice(candNorm.length);
+          if (afterCand === "" || /^[\s:\-–,.]/.test(afterCand)) {
+            var sepMatch = afterCand.match(/^[\s:\-–,.]+/);
+            var cutLen = prefixLen + candNorm.length + (sepMatch ? sepMatch[0].length : 0);
+            t = t.slice(cutLen);
+            break;
+          }
+        }
+      }
+    }
+    t = t.trim();
+    if (t.length > 0) {
+      t = t.charAt(0).toUpperCase() + t.slice(1);
+    }
+    return t;
+  }
+
+  function renderAreas() {
+    var grid = document.getElementById("areaGrid");
+    grid.innerHTML = "";
+    for (var i = 0; i < AREAS.length; i++) {
+      (function(areaName) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "area-btn" + (state.selectedArea === areaName ? " active" : "");
+        btn.textContent = areaName;
+        btn.onclick = function() {
+          if (state.selectedArea === areaName && state.manualAreaLock) {
+            state.selectedArea = "";
+            state.manualAreaLock = false;
+          } else {
+            state.selectedArea = areaName;
+            state.manualAreaLock = true;
+          }
+          renderAreas();
+          document.getElementById("selectedAreaLabel").textContent = state.selectedArea || "Nenhuma selecionada";
+        };
+        grid.appendChild(btn);
+      })(AREAS[i]);
+    }
+    document.getElementById("selectedAreaLabel").textContent = state.selectedArea || "Nenhuma selecionada";
+  }
+
+  function buildWhatsAppText() {
+    var lines = [];
+    lines.push("*Relatório " + state.turno + "*");
+    lines.push("*Data:* " + formatBRDate(state.data));
+    var eq = (state.equipe || "").trim();
+    if (eq) {
+      lines.push("*Equipe:* " + eq);
+    }
+
+    if (state.items.length === 0) {
+      lines.push("");
+      lines.push("_Sem ocorrências registradas até o momento._");
+      lines.push("");
+      lines.push("_Criado em TurnoTech_");
+      return lines.join("\n");
+    }
+
+    for (var i = 0; i < AREAS.length; i++) {
+      var area = AREAS[i];
+      var group = [];
+      for (var j = 0; j < state.items.length; j++) {
+        if (state.items[j].area === area) {
+          group.push(state.items[j]);
+        }
+      }
+      if (group.length > 0) {
+        lines.push("");
+        lines.push("*" + area + "*");
+        for (var k = 0; k < group.length; k++) {
+          lines.push("• " + group[k].desc);
+        }
+      }
+    }
+
+    lines.push("");
+    lines.push("_Criado em TurnoTech_");
+    return lines.join("\n");
+  }
+
+  function renderOccurrences() {
+    var box = document.getElementById("occListContainer");
+    var countEl = document.getElementById("countBadge");
+    var total = state.items.length;
+    countEl.textContent = total + (total === 1 ? " ocorrência" : " ocorrências");
+
+    if (total === 0) {
+      box.innerHTML = '<div style="color:#71717a;font-size:13px;padding:6px 0;">Nenhuma ocorrência lançada ainda.</div>';
+    } else {
+      box.innerHTML = "";
+      for (var i = 0; i < AREAS.length; i++) {
+        var area = AREAS[i];
+        var group = [];
+        for (var j = 0; j < state.items.length; j++) {
+          if (state.items[j].area === area) group.push(state.items[j]);
+        }
+        if (group.length === 0) continue;
+
+        var grpDiv = document.createElement("div");
+        grpDiv.className = "occ-group";
+
+        var titleDiv = document.createElement("div");
+        titleDiv.className = "occ-group-title";
+        titleDiv.textContent = "▸ " + area + " (" + group.length + ")";
+        grpDiv.appendChild(titleDiv);
+
+        for (var k = 0; k < group.length; k++) {
+          (function(item) {
+            var row = document.createElement("div");
+            row.className = "occ-item";
+
+            var txt = document.createElement("div");
+            txt.className = "occ-text";
+            txt.textContent = item.desc;
+
+            var acts = document.createElement("div");
+            acts.className = "occ-acts";
+
+            var btnEd = document.createElement("button");
+            btnEd.type = "button";
+            btnEd.className = "mini-btn";
+            btnEd.textContent = "Editar";
+            btnEd.onclick = function() {
+              state.selectedArea = item.area;
+              state.manualAreaLock = true;
+              state.editingId = item.id;
+              document.getElementById("inpDesc").value = item.desc;
+              document.getElementById("editModeLabel").textContent = "Editando item";
+              document.getElementById("btnAddOcc").textContent = "✔ SALVAR ALTERAÇÃO";
+              renderAreas();
+              document.getElementById("inpDesc").focus();
+            };
+
+            var btnRm = document.createElement("button");
+            btnRm.type = "button";
+            btnRm.className = "mini-btn del";
+            btnRm.textContent = "✕";
+            btnRm.onclick = function() {
+              state.items = state.items.filter(function(x) { return x.id !== item.id; });
+              if (state.editingId === item.id) resetEditor();
+              persistAndRender();
+            };
+
+            acts.appendChild(btnEd);
+            acts.appendChild(btnRm);
+            row.appendChild(txt);
+            row.appendChild(acts);
+            grpDiv.appendChild(row);
+          })(group[k]);
+        }
+        box.appendChild(grpDiv);
+      }
+    }
+
+    document.getElementById("previewBox").textContent = buildWhatsAppText();
+  }
+
+  function resetEditor() {
+    state.editingId = null;
+    state.selectedArea = "";
+    state.manualAreaLock = false;
+    document.getElementById("inpDesc").value = "";
+    document.getElementById("editModeLabel").textContent = "";
+    document.getElementById("btnAddOcc").textContent = "+ ADICIONAR OCORRÊNCIA";
+  }
+
+  function persistAndRender() {
+    saveStorage(STORAGE_KEY, state);
+    renderAreas();
+    renderOccurrences();
+  }
+
+  function addOrSaveOccurrence() {
+    var rawText = document.getElementById("inpDesc").value;
+    if (!rawText || !rawText.trim()) {
+      setStatus("Digite ou dite a ocorrência antes de adicionar.", "warn");
+      document.getElementById("inpDesc").focus();
+      return;
+    }
+
+    var area = state.selectedArea || detectAreaFromText(rawText);
+    if (!area) {
+      setStatus("Selecione uma das 9 áreas acima primeiro.", "warn");
+      return;
+    }
+
+    var cleaned = cleanDescription(rawText, area);
+    if (!cleaned) {
+      setStatus("Descreva os detalhes da ocorrência.", "warn");
+      return;
+    }
+
+    var tags = extractTags(cleaned);
+    if (tags.length > 0) {
+      for (var i = 0; i < tags.length; i++) {
+        tagMap[tags[i]] = area;
+      }
+      saveStorage(TAG_MAP_KEY, tagMap);
+    }
+
+    if (state.editingId) {
+      for (var j = 0; j < state.items.length; j++) {
+        if (state.items[j].id === state.editingId) {
+          state.items[j].area = area;
+          state.items[j].desc = cleaned;
+        }
+      }
+      setStatus("Ocorrência atualizada em " + area + ".", "ok");
+    } else {
+      state.items.push({
+        id: "occ_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+        area: area,
+        desc: cleaned
+      });
+      setStatus("Adicionado em " + area + ".", "ok");
+    }
+
+    resetEditor();
+    persistAndRender();
+  }
+
+  function copyTextRobust(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        setStatus("Relatório copiado! Cole no WhatsApp.", "ok");
+      }).catch(function() {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand("copy");
+      setStatus("Relatório copiado! Cole no WhatsApp.", "ok");
+    } catch (e) {
+      setStatus("Não foi possível copiar automaticamente. Selecione o texto na prévia.", "warn");
+    }
+    document.body.removeChild(ta);
+  }
+
+  var recognition = null;
+  var isListening = false;
+
+  function setupLiveSpeech() {
+    var btn = document.getElementById("btnSpeechLive");
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      btn.onclick = function() {
+        setStatus("Ditado direto indisponível em arquivo local. Use o microfone do seu teclado.", "warn");
+        document.getElementById("inpDesc").focus();
+      };
+      return;
+    }
+
+    recognition = new SR();
+    recognition.lang = "pt-BR";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = function() {
+      isListening = true;
+      btn.classList.add("recording");
+      btn.textContent = "⏹️ Ouvindo... Fale";
+      setStatus("Fale a área e a ocorrência...", "warn");
+    };
+
+    recognition.onresult = function(ev) {
+      var transcript = ev.results[0][0].transcript || "";
+      var descEl = document.getElementById("inpDesc");
+      descEl.value = (descEl.value ? descEl.value + " " : "") + transcript;
+      if (!state.manualAreaLock) {
+        var autoArea = detectAreaFromText(descEl.value);
+        if (autoArea) {
+          state.selectedArea = autoArea;
+          renderAreas();
+          setStatus("Área detectada: " + autoArea + ". Revise e adicione.", "ok");
+          return;
+        }
+      }
+      setStatus("Texto capturado! Revise e toque em Adicionar.", "ok");
+    };
+
+    recognition.onerror = function(ev) {
+      setStatus("Microfone bloqueado em arquivo local (" + ev.error + "). Use o microfone do teclado!", "warn");
+    };
+
+    recognition.onend = function() {
+      isListening = false;
+      btn.classList.remove("recording");
+      btn.textContent = "🎙️ Ditado ao Vivo";
+    };
+
+    btn.onclick = function() {
+      if (isListening) {
+        recognition.stop();
+      } else {
+        try {
+          recognition.start();
+        } catch (e) {
+          setStatus("Use o microfone do teclado do celular para ditar.", "warn");
+        }
+      }
+    };
+  }
+
+  var mediaRecorder = null;
+  var audioChunks = [];
+  var isRecordingAI = false;
+
+  function setupVoiceAI() {
+    var btn = document.getElementById("btnVoiceAI");
+    btn.onclick = function() {
+      var apiKey = "";
+      try { apiKey = localStorage.getItem(API_KEY_STORAGE) || ""; } catch (e) {}
+      if (!apiKey) {
+        document.getElementById("modalSettings").classList.add("open");
+        setStatus("Configure sua chave em Voz IA primeiro.", "warn");
+        return;
+      }
+
+      if (isRecordingAI && mediaRecorder) {
+        mediaRecorder.stop();
+        return;
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setStatus("Gravação direta exige link HTTPS (GitHub Pages). Use o microfone do teclado!", "warn");
+        return;
+      }
+
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = function(e) {
+          if (e.data && e.data.size > 0) audioChunks.push(e.data);
+        };
+        mediaRecorder.onstop = function() {
+          isRecordingAI = false;
+          btn.classList.remove("recording");
+          btn.textContent = "✨ Voz IA (Gemini)";
+          stream.getTracks().forEach(function(t) { t.stop(); });
+          var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+          sendAudioToGemini(blob, apiKey);
+        };
+        mediaRecorder.start();
+        isRecordingAI = true;
+        btn.classList.add("recording");
+        btn.textContent = "⏹️ Parar & Processar";
+        setStatus("Gravando áudio para IA... Toque novamente para enviar.", "warn");
+      }).catch(function() {
+        setStatus("Chrome bloqueia microfone em arquivo local. Use o mic do teclado ou suba no GitHub.", "warn");
+      });
+    };
+  }
+
+  function sendAudioToGemini(blob, apiKey) {
+    setStatus("Processando áudio com Gemini IA...", "warn");
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      var base64 = reader.result.split(",")[1];
+      var mime = blob.type || "audio/webm";
+      var prompt = "Você é um assistente de manutenção industrial. Transcreva e organize este áudio em JSON puro (sem markdown) no formato: " +
+        '{"area": "uma das seguintes áreas exatas ou vazio: Lixadeira, Carro Satélite, Wenhoner, BP1, Etiquetadora, Plastificadora, Fábrica de Calço, Embalagem, Impregnadora", "descricao": "descrição técnica clara e objetiva sem repetir o nome da área no início, mantendo TAGs como 5480B21 em maiúsculo"}.';
+
+      var isVertexExpress = apiKey.indexOf("AQ.") === 0;
+      var endpoint = isVertexExpress
+        ? "https://aiplatform.googleapis.com/v1/publishers/google/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey)
+        : "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey);
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            role: "user",
+            parts: [
+              { text: prompt },
+              { inline_data: { mime_type: mime, data: base64 } }
+            ]
+          }]
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          setStatus("Erro API Gemini: " + (data.error.message || "verifique sua chave"), "warn");
+          return;
+        }
+        var txt = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text;
+        if (!txt) {
+          setStatus("IA não retornou texto.", "warn");
+          return;
+        }
+        var cleanJson = txt.replace(/```json|```/g, "").trim();
+        var parsed = JSON.parse(cleanJson);
+        if (parsed.area && AREAS.indexOf(parsed.area) !== -1) {
+          state.selectedArea = parsed.area;
+          state.manualAreaLock = false;
+          renderAreas();
+        }
+        if (parsed.descricao) {
+          document.getElementById("inpDesc").value = parsed.descricao;
+        }
+        setStatus("Áudio transcrito pela IA! Confira e adicione.", "ok");
+      })
+      .catch(function() {
+        setStatus("Falha ao processar resposta da IA. Verifique internet ou chave.", "warn");
+      });
+    };
+    reader.readAsDataURL(blob);
+  }
+
+  function handleDescriptionInput() {
+    var val = document.getElementById("inpDesc").value;
+    if (!val || !val.trim()) {
+      if (!state.manualAreaLock && state.selectedArea) {
+        state.selectedArea = "";
+        renderAreas();
+      }
+      return;
+    }
+    if (!state.manualAreaLock) {
+      var found = detectAreaFromText(val);
+      if (found && found !== state.selectedArea) {
+        state.selectedArea = found;
+        renderAreas();
+        setStatus("Área detectada automaticamente: " + found, "ok");
+      }
+    }
+  }
+
+  function init() {
+    var badge = document.getElementById("jsBadge");
+    if (badge) {
+      badge.textContent = "● ATIVO";
+      badge.classList.add("ready");
+    }
+
+    var saved = loadStorage(STORAGE_KEY, null);
+    tagMap = loadStorage(TAG_MAP_KEY, {});
+
+    if (saved) {
+      state.turno = saved.turno || "Turno A1";
+      state.data = saved.data || todayISO();
+      state.equipe = saved.equipe || "";
+      state.selectedArea = "";
+      state.manualAreaLock = false;
+      state.items = Array.isArray(saved.items) ? saved.items : [];
+    } else {
+      state.data = todayISO();
+    }
+
+    var selTurno = document.getElementById("selTurno");
+    var inpData = document.getElementById("inpData");
+    var inpEquipe = document.getElementById("inpEquipe");
+
+    selTurno.value = state.turno;
+    inpData.value = state.data;
+    inpEquipe.value = state.equipe;
+
+    selTurno.onchange = function() {
+      state.turno = selTurno.value;
+      persistAndRender();
+    };
+    inpData.onchange = function() {
+      state.data = inpData.value || todayISO();
+      persistAndRender();
+    };
+    inpEquipe.oninput = function() {
+      state.equipe = inpEquipe.value;
+      persistAndRender();
+    };
+
+    var descEl = document.getElementById("inpDesc");
+    descEl.addEventListener("input", handleDescriptionInput);
+    descEl.addEventListener("change", handleDescriptionInput);
+    descEl.addEventListener("compositionend", handleDescriptionInput);
+
+    document.getElementById("btnAddOcc").onclick = addOrSaveOccurrence;
+
+    document.getElementById("btnClearAll").onclick = function() {
+      var btn = document.getElementById("btnClearAll");
+      if (!clearArmed) {
+        clearArmed = true;
+        btn.textContent = "Confirmar Limpar?";
+        clearConfirmTimer = setTimeout(function() {
+          clearArmed = false;
+          btn.textContent = "Limpar Turno";
+        }, 3500);
+      } else {
+        clearTimeout(clearConfirmTimer);
+        clearArmed = false;
+        btn.textContent = "Limpar Turno";
+        state.items = [];
+        resetEditor();
+        persistAndRender();
+        setStatus("Ocorrências do turno limpas.", "ok");
+      }
+    };
+
+    document.getElementById("btnCopy").onclick = function() {
+      copyTextRobust(buildWhatsAppText());
+    };
+
+    document.getElementById("btnWhatsApp").onclick = function() {
+      var text = buildWhatsAppText();
+      var url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    };
+
+    var modal = document.getElementById("modalSettings");
+    var inpKey = document.getElementById("inpApiKey");
+    document.getElementById("btnOpenSettings").onclick = function() {
+      try { inpKey.value = localStorage.getItem(API_KEY_STORAGE) || ""; } catch (e) {}
+      modal.classList.add("open");
+    };
+    document.getElementById("btnCloseModal").onclick = function() {
+      modal.classList.remove("open");
+    };
+    document.getElementById("btnToggleKey").onclick = function() {
+      inpKey.type = inpKey.type === "password" ? "text" : "password";
+      this.textContent = inpKey.type === "password" ? "Mostrar" : "Ocultar";
+    };
+    document.getElementById("btnSaveKey").onclick = function() {
+      try {
+        localStorage.setItem(API_KEY_STORAGE, inpKey.value.trim());
+        setStatus("Chave API salva com sucesso!", "ok");
+      } catch (e) {
+        setStatus("Não foi possível salvar no armazenamento local.", "warn");
+      }
+      modal.classList.remove("open");
+    };
+
+    setupLiveSpeech();
+    setupVoiceAI();
+    renderAreas();
+    renderOccurrences();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
