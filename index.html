@@ -149,6 +149,27 @@
       font-weight: 600;
     }
 
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .label-row label {
+      margin-bottom: 0;
+    }
+
+    .restore-link {
+      background: transparent;
+      border: none;
+      color: var(--accent-yellow);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
     select, input[type="date"], input[type="text"], textarea {
       width: 100%;
       background: var(--bg-input);
@@ -176,13 +197,16 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
-      padding: 8px 12px;
+      padding: 8px 10px 8px 12px;
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
 
     .chip.active {
@@ -191,6 +215,25 @@
       border-color: var(--accent-yellow);
       font-weight: 800;
       box-shadow: 0 2px 8px rgba(250, 204, 21, 0.3);
+    }
+
+    .chip-del-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 800;
+      background: rgba(239, 68, 68, 0.18);
+      color: var(--danger);
+      line-height: 1;
+    }
+
+    .chip.active .chip-del-btn {
+      background: rgba(11, 13, 16, 0.2);
+      color: #0b0d10;
     }
 
     /* Busca e Sugestão Instantânea de Áreas */
@@ -294,7 +337,7 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
-      padding: 11px 8px;
+      padding: 11px 18px 11px 8px;
       border-radius: 9px;
       font-size: 0.84rem;
       font-weight: 700;
@@ -346,17 +389,22 @@
     .custom-area-del {
       position: absolute;
       top: 4px;
-      right: 5px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.68rem;
+      font-weight: 800;
       color: var(--danger);
-      background: rgba(239, 68, 68, 0.14);
-      border-radius: 4px;
-      padding: 1px 4px;
-      line-height: 1.1;
+      background: rgba(239, 68, 68, 0.18);
+      border-radius: 50%;
+      line-height: 1;
     }
 
     .area-btn.active .custom-area-del {
-      background: rgba(11, 13, 16, 0.18);
+      background: rgba(11, 13, 16, 0.2);
       color: #0b0d10;
     }
 
@@ -402,6 +450,112 @@
     .voice-status.detected {
       color: var(--accent-yellow);
       font-weight: 700;
+    }
+
+    /* Dicionário de Correções Personalizado */
+    .dict-bar {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .dict-toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 4px;
+    }
+
+    .dict-toggle-btn:hover {
+      color: var(--accent-yellow);
+    }
+
+    .dict-panel {
+      display: none;
+      margin-top: 8px;
+      padding: 10px;
+      background: rgba(11, 13, 16, 0.65);
+      border: 1px solid var(--border-color);
+      border-radius: 9px;
+    }
+
+    .dict-panel.open {
+      display: block;
+    }
+
+    .dict-panel-desc {
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .dict-form-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .dict-form-row input {
+      padding: 7px 9px;
+      font-size: 0.82rem;
+    }
+
+    .dict-arrow {
+      color: var(--accent-yellow);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .dict-save-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--accent-yellow);
+      color: var(--accent-yellow);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dict-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .dict-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .dict-pill strong {
+      color: var(--accent-yellow);
+    }
+
+    .dict-pill button {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      line-height: 1;
     }
 
     .tag-suggestions {
@@ -608,7 +762,16 @@
       </div>
 
       <div style="margin-top: 12px;">
-        <label>Equipe no Turno</label>
+        <div class="label-row">
+          <label>Equipe no Turno</label>
+          <button
+            type="button"
+            id="restoreDefaultTechsBtn"
+            class="restore-link"
+            style="display: none;"
+            onclick="restoreDefaultTechs()"
+          >↺ Restaurar padrão</button>
+        </div>
         <div class="chip-grid" id="techChips"></div>
         <div class="add-tech-row">
           <input type="text" id="newTechInput" placeholder="Adicionar técnico..." />
@@ -659,14 +822,33 @@
         <span><span class="step-badge">ETAPA 2</span>Ocorrência / Atividade</span>
       </div>
 
-      <textarea id="occInput" rows="3" placeholder="Ex: Troca do sensor S-104 na entrada da prensa ou toque no microfone abaixo e fale a área + ocorrência..."></textarea>
+      <textarea id="occInput" rows="3" placeholder="Descreva a atividade ou toque no botão abaixo para transcrever sua fala..."></textarea>
 
       <div class="tag-suggestions" id="tagSuggestions"></div>
 
       <button type="button" class="voice-btn" id="voiceBtn" onclick="toggleVoiceDictation()">
         🎙️ Transcrever fala
       </button>
-      <div class="voice-status" id="voiceStatus">Dica: Fale o nome da área primeiro (ex: "Wemhoner, troca de válvula..." ou "Schrader...")</div>
+      <div class="voice-status" id="voiceStatus">Fale a área primeiro para selecionar automaticamente</div>
+
+      <div class="dict-bar">
+        <button type="button" class="dict-toggle-btn" id="dictToggleBtn" onclick="toggleDictPanel()">
+          ⚙️ Dicionário de correções (<span id="dictCount">0</span>)
+        </button>
+      </div>
+
+      <div class="dict-panel" id="dictPanel">
+        <div class="dict-panel-desc">
+          Ensine palavras que o celular costuma trocar no ruído da fábrica (salvo no aparelho):
+        </div>
+        <div class="dict-form-row">
+          <input type="text" id="dictWrongInput" placeholder="Ex: festa" />
+          <span class="dict-arrow">→</span>
+          <input type="text" id="dictRightInput" placeholder="Ex: Festo" />
+          <button type="button" class="dict-save-btn" onclick="addDictRule()">+ Salvar</button>
+        </div>
+        <div class="dict-list" id="dictList"></div>
+      </div>
 
       <button type="button" class="btn-primary" onclick="addOccurrence()">
         ➕ Adicionar ao Relatório
@@ -704,8 +886,6 @@
       "Carro Satélite",
       "Wemhoner",
       "BP1",
-      "Omeco 1",
-      "Omeco 2",
       "Etiquetadora",
       "Plastificadora",
       "Fábrica de Calço",
@@ -727,7 +907,6 @@
       "Utilidades / Geral"
     ];
 
-    // Apelidos fonéticos usados tanto na busca digitada quanto no reconhecimento de voz
     const AREA_SEARCH_ALIASES = {
       "Wemhoner": ["vem roner", "vem holer", "vem roller", "ver roller", "wenhoner", "wemoner", "roner"],
       "Schrader": ["xiraider", "xeraider", "shraider", "chiraider", "xraider", "schraider", "xiraide", "xeraide"],
@@ -745,7 +924,7 @@
     const DEFAULT_TECHS = ["Geisse", "Samuel", "Takao"];
 
     // =========================================================
-    // 2. MOTOR FONÉTICO PARA RECONHECIMENTO DE VOZ (PT-BR)
+    // 2. MOTOR FONÉTICO, NÚMEROS FALADOS E VOCABULÁRIO INDUSTRIAL
     // =========================================================
     const WEMHONER_PATTERNS = [
       /\bwemhoner\b/gi,
@@ -797,16 +976,9 @@
       /\b[xcs]h?[ie]?[\s,.;:-]*raider\b/gi
     ];
 
-    // Regras ordenadas das áreas mais específicas (compostas) para as mais curtas
     const BASE_AREA_RULES = [
-      {
-        area: "Wemhoner",
-        patterns: WEMHONER_PATTERNS
-      },
-      {
-        area: "Schrader",
-        patterns: SCHRADER_PATTERNS
-      },
+      { area: "Wemhoner", patterns: WEMHONER_PATTERNS },
+      { area: "Schrader", patterns: SCHRADER_PATTERNS },
       {
         area: "Lavador de gases",
         patterns: [/\blavador[\s,.;:-]*(?:de[\s,.;:-]*)?g[aá]s(?:es)?\b/gi]
@@ -854,20 +1026,6 @@
         ]
       },
       {
-        area: "Omeco 1",
-        patterns: [
-          /\bh?ome[cg]o[\s,.;:-]*(?:1|um)\b/gi,
-          /\bo[\s,.;:-]*me[cg]o[\s,.;:-]*(?:1|um)\b/gi
-        ]
-      },
-      {
-        area: "Omeco 2",
-        patterns: [
-          /\bh?ome[cg]o[\s,.;:-]*(?:2|dois)\b/gi,
-          /\bo[\s,.;:-]*me[cg]o[\s,.;:-]*(?:2|dois)\b/gi
-        ]
-      },
-      {
         area: "BP1",
         patterns: [
           /\bbp[\s,.;:-]*(?:1|um)\b/gi,
@@ -882,42 +1040,15 @@
           /\bic[aá]vi\b/gi
         ]
       },
-      {
-        area: "Refinador",
-        patterns: [/\brefinador\b/gi]
-      },
-      {
-        area: "Secador",
-        patterns: [/\bsecador\b/gi]
-      },
-      {
-        area: "Lagoa",
-        patterns: [/\blagoa\b/gi]
-      },
-      {
-        area: "Lixadeira",
-        patterns: [/\bli[xch]adeira\b/gi]
-      },
-      {
-        area: "Etiquetadora",
-        patterns: [/\betiquetadora\b/gi]
-      },
-      {
-        area: "Plastificadora",
-        patterns: [/\bplastificadora\b/gi]
-      },
-      {
-        area: "Embalagem",
-        patterns: [/\bembalagem\b/gi]
-      },
-      {
-        area: "Impregnadora",
-        patterns: [/\bimpregnadora\b/gi]
-      },
-      {
-        area: "Utilidades / Geral",
-        patterns: [/\butilidades\b/gi, /\bpredial\b/gi]
-      }
+      { area: "Refinador", patterns: [/\brefinador\b/gi] },
+      { area: "Secador", patterns: [/\bsecador\b/gi] },
+      { area: "Lagoa", patterns: [/\blagoa\b/gi] },
+      { area: "Lixadeira", patterns: [/\bli[xch]adeira\b/gi] },
+      { area: "Etiquetadora", patterns: [/\betiquetadora\b/gi] },
+      { area: "Plastificadora", patterns: [/\bplastificadora\b/gi] },
+      { area: "Embalagem", patterns: [/\bembalagem\b/gi] },
+      { area: "Impregnadora", patterns: [/\bimpregnadora\b/gi] },
+      { area: "Utilidades / Geral", patterns: [/\butilidades\b/gi, /\bpredial\b/gi] }
     ];
 
     const TERM_REPLACEMENTS = [
@@ -925,16 +1056,189 @@
       { pattern: /\bgrav[\s-]*soft\b/gi, replacement: "Gravisoft" },
       { pattern: /\bprof[\s-]*net\b/gi, replacement: "PROFINET" },
       { pattern: /\bprofinete?\b/gi, replacement: "PROFINET" },
+      { pattern: /\bprofi[\s-]*bus\b/gi, replacement: "PROFIBUS" },
+      { pattern: /\bprofibuz\b/gi, replacement: "PROFIBUS" },
+      { pattern: /\bf[eê]nix[\s-]*contact\b/gi, replacement: "Phoenix Contact" },
+      { pattern: /\bphoenix[\s-]*contact\b/gi, replacement: "Phoenix Contact" },
       { pattern: /\blen[sz][ei]\b/gi, replacement: "Lenze" },
       { pattern: /\bsimens\b/gi, replacement: "Siemens" },
       { pattern: /\bclp\b/gi, replacement: "CLP" },
       { pattern: /\bihm\b/gi, replacement: "IHM" },
       { pattern: /\bservo[\s-]*drive\b/gi, replacement: "Servodrive" },
+      { pattern: /\bp[\s-]*t[\s-]*(?:100|cem)\b/gi, replacement: "PT100" },
+      { pattern: /\bpt[\s-]*(?:100|cem)\b/gi, replacement: "PT100" },
+      { pattern: /\btermo[\s-]*par\b/gi, replacement: "termopar" },
+      { pattern: /\ben[\s-]*(?:coder|couder|conder)\b/gi, replacement: "encoder" },
+      { pattern: /\bin[\s-]*coder\b/gi, replacement: "encoder" },
+      { pattern: /\bv[aá]lvula[\s-]+proporcional\b/gi, replacement: "válvula proporcional" },
+      { pattern: /\bpres+o[\s-]*stato\b/gi, replacement: "pressostato" },
+      { pattern: /\bdijuntor\b/gi, replacement: "disjuntor" },
+      { pattern: /\bfins?[\s-]+de[\s-]+curso\b/gi, replacement: "fim de curso" },
+      { pattern: /\bfoto[\s-]*c[eé]lula\b/gi, replacement: "fotocélula" },
+      { pattern: /\bsensor[\s-]+indutivo\b/gi, replacement: "sensor indutivo" },
+      { pattern: /\bsensor[\s-]+capacitivo\b/gi, replacement: "sensor capacitivo" },
+      { pattern: /\b(?:by|bai)[\s-]*pass\b/gi, replacement: "bypass" },
+      { pattern: /\bcomicionamento\b/gi, replacement: "comissionamento" },
+      { pattern: /\bshort[\s-]*cycle\b/gi, replacement: "Short Cycle" },
       {
-        pattern: /\b(fc|yv|s|m|k|q|u|b|c|e|f|p|t|v|z)[\s-]+(\d{1,4}[a-z]?)\b/gi,
+        pattern: /\b(fc|yv|sv|km|qf|dj|ft|pt|tt|lt|ls|zs|xv|pv|mv|s|m|k|q|u|b|c|f|p|t|v|z)[\s-]+(\d{1,4}[a-z]?)\b/gi,
         replacement: (_, prefix, num) => `${prefix.toUpperCase()}-${num.toUpperCase()}`
       }
     ];
+
+    const SPOKEN_HUNDREDS = {
+      cem: 100,
+      cento: 100,
+      duzentos: 200,
+      duzentas: 200,
+      trezentos: 300,
+      trezentas: 300,
+      quatrocentos: 400,
+      quatrocentas: 400,
+      quinhentos: 500,
+      quinhentas: 500,
+      seiscentos: 600,
+      seiscentas: 600,
+      setecentos: 700,
+      setecentas: 700,
+      oitocentos: 800,
+      oitocentas: 800,
+      novecentos: 900,
+      novecentas: 900
+    };
+
+    const SPOKEN_TENS = {
+      vinte: 20,
+      trinta: 30,
+      quarenta: 40,
+      cinquenta: 50,
+      sessenta: 60,
+      setenta: 70,
+      oitenta: 80,
+      noventa: 90
+    };
+
+    const SPOKEN_UNITS_TEENS = {
+      zero: 0,
+      um: 1,
+      uma: 1,
+      dois: 2,
+      duas: 2,
+      tres: 3,
+      quatro: 4,
+      cinco: 5,
+      seis: 6,
+      meia: 6,
+      sete: 7,
+      oito: 8,
+      nove: 9,
+      dez: 10,
+      onze: 11,
+      doze: 12,
+      treze: 13,
+      quatorze: 14,
+      catorze: 14,
+      quinze: 15,
+      dezesseis: 16,
+      dezessete: 17,
+      dezoito: 18,
+      dezenove: 19
+    };
+
+    function parseSpokenNumberTokens(rawPhrase) {
+      const tokens = normalizeStr(rawPhrase)
+        .split(/[\s-]+/)
+        .filter((t) => t && t !== "e");
+
+      if (tokens.length === 0) return null;
+
+      if (
+        tokens.length === 2 &&
+        tokens[0] === "zero" &&
+        SPOKEN_UNITS_TEENS[tokens[1]] !== undefined &&
+        SPOKEN_UNITS_TEENS[tokens[1]] < 10
+      ) {
+        return `0${SPOKEN_UNITS_TEENS[tokens[1]]}`;
+      }
+
+      if (
+        tokens.length >= 2 &&
+        tokens.every(
+          (t) => SPOKEN_UNITS_TEENS[t] !== undefined && SPOKEN_UNITS_TEENS[t] < 10
+        )
+      ) {
+        return tokens.map((t) => String(SPOKEN_UNITS_TEENS[t])).join("");
+      }
+
+      let total = 0;
+      let matchedAny = false;
+
+      for (const tok of tokens) {
+        if (SPOKEN_HUNDREDS[tok] !== undefined) {
+          total += SPOKEN_HUNDREDS[tok];
+          matchedAny = true;
+        } else if (SPOKEN_TENS[tok] !== undefined) {
+          total += SPOKEN_TENS[tok];
+          matchedAny = true;
+        } else if (SPOKEN_UNITS_TEENS[tok] !== undefined) {
+          total += SPOKEN_UNITS_TEENS[tok];
+          matchedAny = true;
+        } else {
+          return null;
+        }
+      }
+
+      return matchedAny ? String(total) : null;
+    }
+
+    function convertSpokenTagsAndNumbers(text) {
+      const numWordList = [
+        ...Object.keys(SPOKEN_HUNDREDS),
+        ...Object.keys(SPOKEN_TENS),
+        ...Object.keys(SPOKEN_UNITS_TEENS),
+        "três"
+      ].join("|");
+
+      const spelledPairs = [
+        ["y", "v", "YV"],
+        ["f", "c", "FC"],
+        ["s", "v", "SV"],
+        ["k", "m", "KM"],
+        ["q", "f", "QF"],
+        ["d", "j", "DJ"],
+        ["f", "t", "FT"],
+        ["p", "t", "PT"],
+        ["t", "t", "TT"],
+        ["l", "t", "LT"],
+        ["l", "s", "LS"],
+        ["z", "s", "ZS"],
+        ["x", "v", "XV"],
+        ["p", "v", "PV"],
+        ["m", "v", "MV"]
+      ];
+
+      let out = text;
+      for (const [l1, l2, combined] of spelledPairs) {
+        const pairRegex = new RegExp(
+          `\\b${l1}[\\s.-]+${l2}(?=[\\s-]+(?:\\d+|${numWordList})\\b)`,
+          "gi"
+        );
+        out = out.replace(pairRegex, combined);
+      }
+
+      const numberSequenceRegex = new RegExp(
+        `\\b(fc|yv|sv|km|qf|dj|ft|pt|tt|lt|ls|zs|xv|pv|mv|s|m|k|q|u|b|c|f|p|t|v|z)[\\s-]+((?:(?:${numWordList})(?:[\\s-]+e)?[\\s-]*)+)\\b`,
+        "gi"
+      );
+
+      out = out.replace(numberSequenceRegex, (fullMatch, prefix, numberPhrase) => {
+        const parsedNum = parseSpokenNumberTokens(numberPhrase);
+        if (!parsedNum) return fullMatch;
+        return `${prefix.toUpperCase()}-${parsedNum}`;
+      });
+
+      return out;
+    }
 
     // =========================================================
     // 3. ESTADO DA APLICAÇÃO & PERSISTÊNCIA LOCAL
@@ -948,36 +1252,59 @@
       customAreas: [],
       areaStats: {}, // { [areaName]: { count: number, lastUsed: timestamp } }
       occurrences: [],
-      learnedTags: {}
+      learnedTags: {},
+      customDict: [] // [{ wrong: string, right: string }]
     };
 
     let showAllAreas = false;
 
     function loadState() {
       try {
-        const savedV4 = localStorage.getItem("turnotech_state_v4");
+        const savedV7 = localStorage.getItem("turnotech_state_v7");
         const savedLegacy =
+          localStorage.getItem("turnotech_state_v6") ||
+          localStorage.getItem("turnotech_state_v5") ||
+          localStorage.getItem("turnotech_state_v4") ||
           localStorage.getItem("turnotech_state_v3") ||
           localStorage.getItem("turnotech_state_v2");
 
-        if (savedV4) {
-          const parsed = JSON.parse(savedV4);
+        if (savedV7) {
+          const parsed = JSON.parse(savedV7);
           state = { ...state, ...parsed };
         } else if (savedLegacy) {
           const parsed = JSON.parse(savedLegacy);
           state = { ...state, ...parsed };
-          // Remove Luan das sugestões antigas migradas
           state.techList = (state.techList || []).filter((t) => normalizeStr(t) !== "luan");
           state.activeTechs = (state.activeTechs || []).filter((t) => normalizeStr(t) !== "luan");
+
+          const removedDefaults = new Set(["omeco 1", "omeco 2"]);
+          if (removedDefaults.has(normalizeStr(state.selectedArea))) {
+            state.selectedArea = "";
+          }
+          state.customAreas = (state.customAreas || []).filter(
+            (a) => !removedDefaults.has(normalizeStr(a))
+          );
+          if (state.areaStats && typeof state.areaStats === "object") {
+            Object.keys(state.areaStats).forEach((k) => {
+              if (removedDefaults.has(normalizeStr(k))) delete state.areaStats[k];
+            });
+          }
+          if (state.learnedTags && typeof state.learnedTags === "object") {
+            Object.keys(state.learnedTags).forEach((k) => {
+              if (removedDefaults.has(normalizeStr(k))) delete state.learnedTags[k];
+            });
+          }
           saveState();
         }
       } catch (e) {
         console.warn("Erro ao carregar estado:", e);
       }
-      if (!Array.isArray(state.techList) || state.techList.length === 0) {
+      if (!Array.isArray(state.techList)) {
         state.techList = [...DEFAULT_TECHS];
       }
+      if (!Array.isArray(state.activeTechs)) state.activeTechs = [];
       if (!Array.isArray(state.customAreas)) state.customAreas = [];
+      if (!Array.isArray(state.customDict)) state.customDict = [];
       if (!state.areaStats || typeof state.areaStats !== "object") state.areaStats = {};
       if (!state.date) {
         state.date = new Date().toISOString().split("T")[0];
@@ -986,7 +1313,7 @@
 
     function saveState() {
       try {
-        localStorage.setItem("turnotech_state_v4", JSON.stringify(state));
+        localStorage.setItem("turnotech_state_v7", JSON.stringify(state));
       } catch (e) {
         console.warn("Erro ao salvar estado:", e);
       }
@@ -1050,6 +1377,7 @@
 
       renderTechChips();
       renderAreaSection();
+      renderDictList();
       renderOccurrences();
       renderReportPreview();
       updateNetworkBadge();
@@ -1075,11 +1403,29 @@
 
     function renderTechChips() {
       const container = document.getElementById("techChips");
+      const restoreBtn = document.getElementById("restoreDefaultTechsBtn");
       container.innerHTML = "";
+
+      const missingDefault = DEFAULT_TECHS.some(
+        (def) => !state.techList.some((t) => normalizeStr(t) === normalizeStr(def))
+      );
+      restoreBtn.style.display = missingDefault ? "inline" : "none";
+
       state.techList.forEach((tech) => {
         const chip = document.createElement("div");
         chip.className = "chip" + (state.activeTechs.includes(tech) ? " active" : "");
-        chip.textContent = tech;
+
+        const labelSpan = document.createElement("span");
+        labelSpan.textContent = tech;
+        chip.appendChild(labelSpan);
+
+        const delBtn = document.createElement("span");
+        delBtn.className = "chip-del-btn";
+        delBtn.textContent = "✕";
+        delBtn.title = `Remover ${tech}`;
+        delBtn.onclick = (e) => removeTech(e, tech);
+        chip.appendChild(delBtn);
+
         chip.onclick = () => {
           if (state.activeTechs.includes(tech)) {
             state.activeTechs = state.activeTechs.filter((t) => t !== tech);
@@ -1098,13 +1444,36 @@
       const input = document.getElementById("newTechInput");
       const name = input.value.trim();
       if (!name) return;
-      if (!state.techList.includes(name)) {
+      const existing = state.techList.find((t) => normalizeStr(t) === normalizeStr(name));
+      if (existing) {
+        if (!state.activeTechs.includes(existing)) {
+          state.activeTechs.push(existing);
+        }
+      } else {
         state.techList.push(name);
-      }
-      if (!state.activeTechs.includes(name)) {
         state.activeTechs.push(name);
       }
       input.value = "";
+      saveState();
+      renderTechChips();
+      renderReportPreview();
+    }
+
+    function removeTech(event, techName) {
+      event.stopPropagation();
+      state.techList = state.techList.filter((t) => t !== techName);
+      state.activeTechs = state.activeTechs.filter((t) => t !== techName);
+      saveState();
+      renderTechChips();
+      renderReportPreview();
+    }
+
+    function restoreDefaultTechs() {
+      DEFAULT_TECHS.forEach((def) => {
+        if (!state.techList.some((t) => normalizeStr(t) === normalizeStr(def))) {
+          state.techList.push(def);
+        }
+      });
       saveState();
       renderTechChips();
       renderReportPreview();
@@ -1118,7 +1487,6 @@
       const result = [];
       const chosen = new Set();
 
-      // 1. Top 3 frequentes (ordenadas por quantidade de ocorrências registradas)
       const byFrequency = [...allAreas]
         .filter((a) => (state.areaStats[a]?.count || 0) > 0)
         .sort((a, b) => {
@@ -1133,7 +1501,6 @@
         result.push({ area, badge: "" });
       }
 
-      // 2. Top 3 últimas citadas/selecionadas (sem repetir as 3 frequentes)
       const byRecent = [...allAreas]
         .filter((a) => !chosen.has(a) && (state.areaStats[a]?.lastUsed || 0) > 0)
         .sort((a, b) => (state.areaStats[b]?.lastUsed || 0) - (state.areaStats[a]?.lastUsed || 0));
@@ -1144,7 +1511,6 @@
         result.push({ area, badge: "" });
       }
 
-      // 3. Completa até 6 com áreas principais da planta sem duplicar
       for (const area of allAreas) {
         if (result.length >= 6) break;
         if (!chosen.has(area)) {
@@ -1187,7 +1553,6 @@
 
     function deleteCustomArea(event, areaName) {
       event.stopPropagation();
-      if (!confirm(`Remover a área personalizada "${areaName}"?`)) return;
       state.customAreas = state.customAreas.filter((a) => a !== areaName);
       delete state.areaStats[areaName];
       if (state.selectedArea === areaName) {
@@ -1208,7 +1573,6 @@
       const normQuery = normalizeStr(query);
       const allAreas = getAllAreas();
 
-      // Atualiza badge da área selecionada no topo do card
       if (state.selectedArea) {
         selectedLabel.textContent = `📍 ${state.selectedArea}`;
         selectedLabel.className = "selected-area-pill";
@@ -1221,7 +1585,6 @@
       addSlot.innerHTML = "";
 
       if (normQuery.length > 0) {
-        // Modo Busca / Sugestão Instantânea
         toggleBtn.style.display = "none";
         const matches = allAreas.filter((area) => {
           if (normalizeStr(area).includes(normQuery)) return true;
@@ -1236,11 +1599,10 @@
 
         matches.forEach((area) => {
           const isCustom = state.customAreas.includes(area);
-          const btn = createAreaButton(area, isCustom ? "Personalizada" : "", isCustom, true);
+          const btn = createAreaButton(area, "", isCustom, true);
           grid.appendChild(btn);
         });
 
-        // Se não há correspondência exata, oferece botão para salvar a nova área
         const hasExact = allAreas.some((a) => normalizeStr(a) === normQuery);
         if (!hasExact) {
           const addBtn = document.createElement("button");
@@ -1251,7 +1613,6 @@
           addSlot.appendChild(addBtn);
         }
       } else if (showAllAreas) {
-        // Modo Lista Completa (todas as 25+ áreas)
         toggleBtn.style.display = "inline";
         toggleBtn.textContent = "Ocultar lista completa";
         hintText.textContent = `Todas as áreas (${allAreas.length}):`;
@@ -1259,12 +1620,11 @@
         allAreas.forEach((area) => {
           const isCustom = state.customAreas.includes(area);
           const cnt = state.areaStats[area]?.count || 0;
-          const meta = isCustom ? "Personalizada" : cnt > 0 ? `${cnt} reg.` : "";
+          const meta = !isCustom && cnt > 0 ? `${cnt} reg.` : "";
           const btn = createAreaButton(area, meta, isCustom, false);
           grid.appendChild(btn);
         });
       } else {
-        // Modo Padrão: 6 sugestões rápidas de área
         toggleBtn.style.display = "inline";
         toggleBtn.textContent = `Ver todas (${allAreas.length})`;
         hintText.textContent = "Áreas sugeridas:";
@@ -1296,11 +1656,11 @@
         btn.appendChild(metaSpan);
       }
 
-      if (isCustom && showAllAreas) {
+      if (isCustom) {
         const delBadge = document.createElement("span");
         delBadge.className = "custom-area-del";
         delBadge.textContent = "✕";
-        delBadge.title = "Remover área personalizada";
+        delBadge.title = `Remover ${area}`;
         delBadge.onclick = (e) => deleteCustomArea(e, area);
         btn.appendChild(delBadge);
       }
@@ -1369,10 +1729,72 @@
     }
 
     // =========================================================
-    // 6. PROCESSAMENTO DE FALA E DETECÇÃO DE ÁREA (PADRÃO + CUSTOM)
+    // 6. DICIONÁRIO PERSONALIZADO DE CORREÇÕES
+    // =========================================================
+    function toggleDictPanel() {
+      const panel = document.getElementById("dictPanel");
+      panel.classList.toggle("open");
+    }
+
+    function addDictRule() {
+      const wrongInput = document.getElementById("dictWrongInput");
+      const rightInput = document.getElementById("dictRightInput");
+      const wrong = wrongInput.value.trim();
+      const right = rightInput.value.trim();
+      if (!wrong || !right) return;
+
+      const idx = state.customDict.findIndex(
+        (item) => normalizeStr(item.wrong) === normalizeStr(wrong)
+      );
+      if (idx >= 0) {
+        state.customDict[idx] = { wrong, right };
+      } else {
+        state.customDict.unshift({ wrong, right });
+      }
+
+      wrongInput.value = "";
+      rightInput.value = "";
+      saveState();
+      renderDictList();
+    }
+
+    function removeDictRule(index) {
+      state.customDict.splice(index, 1);
+      saveState();
+      renderDictList();
+    }
+
+    function renderDictList() {
+      const list = document.getElementById("dictList");
+      const countEl = document.getElementById("dictCount");
+      countEl.textContent = state.customDict.length;
+      list.innerHTML = "";
+
+      state.customDict.forEach((rule, index) => {
+        const pill = document.createElement("div");
+        pill.className = "dict-pill";
+        pill.innerHTML = `
+          <span>${escapeHtml(rule.wrong)} → <strong>${escapeHtml(rule.right)}</strong></span>
+          <button type="button" title="Remover regra" onclick="removeDictRule(${index})">✕</button>
+        `;
+        list.appendChild(pill);
+      });
+    }
+
+    function applyCustomDict(text) {
+      let out = text;
+      for (const rule of state.customDict) {
+        if (!rule.wrong || !rule.right) continue;
+        const regex = new RegExp(`\\b${escapeRegex(rule.wrong)}\\b`, "gi");
+        out = out.replace(regex, rule.right);
+      }
+      return out;
+    }
+
+    // =========================================================
+    // 7. PROCESSAMENTO DE FALA E MÚLTIPLAS HIPÓTESES
     // =========================================================
     function buildDynamicAreaRules() {
-      // Gera regras dinâmicas para áreas personalizadas adicionadas pelo usuário
       const customRules = state.customAreas.map((customArea) => {
         const escaped = escapeRegex(customArea).replace(/\s+/g, "[\\s,.;:-]+");
         const noAccent = escapeRegex(normalizeStr(customArea)).replace(/\s+/g, "[\\s,.;:-]+");
@@ -1383,13 +1805,12 @@
         return { area: customArea, patterns };
       });
 
-      // Prioriza regras personalizadas mais longas primeiro, seguidas das regras padrão
       customRules.sort((a, b) => b.area.length - a.area.length);
       return [...customRules, ...BASE_AREA_RULES];
     }
 
     function processSpokenText(rawTranscript) {
-      let text = rawTranscript.trim();
+      let text = applyCustomDict(rawTranscript.trim());
       let detectedArea = null;
       const rules = buildDynamicAreaRules();
 
@@ -1416,9 +1837,13 @@
         if (detectedArea) break;
       }
 
+      text = convertSpokenTagsAndNumbers(text);
+
       for (const item of TERM_REPLACEMENTS) {
         text = text.replace(item.pattern, item.replacement);
       }
+
+      text = applyCustomDict(text);
 
       if (text.length > 0) {
         text = text.charAt(0).toUpperCase() + text.slice(1);
@@ -1427,11 +1852,50 @@
       return { cleanedText: text, detectedArea };
     }
 
+    function processSpeechAlternatives(alternatives) {
+      let bestResult = null;
+
+      for (let i = 0; i < alternatives.length; i++) {
+        const transcript = (alternatives[i] || "").trim();
+        if (!transcript) continue;
+        const processed = processSpokenText(transcript);
+        if (i === 0) {
+          bestResult = { ...processed, rawUsed: transcript };
+        }
+        if (processed.detectedArea) {
+          return { ...processed, rawUsed: transcript };
+        }
+      }
+
+      return bestResult || { cleanedText: "", detectedArea: null, rawUsed: "" };
+    }
+
     // =========================================================
-    // 7. TRANSCRIÇÃO POR VOZ NATIVA
+    // 8. TRANSCRIÇÃO POR VOZ NATIVA (TEMPO REAL + TOLERÂNCIA A PAUSAS)
     // =========================================================
     let recognition = null;
     let isRecording = false;
+    let userStoppedRecording = false;
+    let baseTextBeforeSession = "";
+    let finalizedSessionSegments = [];
+
+    function composeSessionTextarea(interimText = "") {
+      const parts = [];
+      if (baseTextBeforeSession) {
+        parts.push(baseTextBeforeSession);
+      }
+      const joinedFinal = finalizedSessionSegments
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .join(". ");
+      if (joinedFinal) {
+        parts.push(joinedFinal);
+      }
+      if (interimText) {
+        parts.push(interimText);
+      }
+      return parts.join(baseTextBeforeSession && (joinedFinal || interimText) ? ". " : " ").trim();
+    }
 
     function toggleVoiceDictation() {
       const SpeechRecognition =
@@ -1443,68 +1907,146 @@
       }
 
       if (isRecording && recognition) {
+        userStoppedRecording = true;
         recognition.stop();
         return;
       }
 
+      const textarea = document.getElementById("occInput");
+      baseTextBeforeSession = textarea.value.trim();
+      finalizedSessionSegments = [];
+      userStoppedRecording = false;
+
+      startRecognitionInstance();
+    }
+
+    function startRecognitionInstance() {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
       recognition = new SpeechRecognition();
       recognition.lang = "pt-BR";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 5;
 
       const btn = document.getElementById("voiceBtn");
       const status = document.getElementById("voiceStatus");
+      const textarea = document.getElementById("occInput");
 
       recognition.onstart = () => {
         isRecording = true;
         btn.classList.add("recording");
-        btn.textContent = "🛑 Ouvindo... Toque para parar";
-        status.className = "voice-status";
-        status.textContent = "Fale agora (ex: 'Schrader, troca do sensor S-104')...";
+        btn.textContent = "🛑 Parar transcrição";
+        if (!status.classList.contains("detected")) {
+          status.className = "voice-status";
+          status.textContent = "Ouvindo em tempo real... Pode fazer pausas curtas.";
+        }
       };
 
       recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        const { cleanedText, detectedArea } = processSpokenText(transcript);
+        let interimTranscript = "";
 
-        if (detectedArea) {
-          selectArea(detectedArea, true);
-          status.className = "voice-status detected";
-          status.textContent = `✓ Área detectada: ${detectedArea} (Ouvido: "${transcript}")`;
-        } else {
-          status.className = "voice-status";
-          status.textContent = `Ouvido: "${transcript}"`;
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i];
+          if (result.isFinal) {
+            const alts = [];
+            for (let a = 0; a < result.length; a++) {
+              alts.push(result[a].transcript);
+            }
+            const { cleanedText, detectedArea, rawUsed } = processSpeechAlternatives(alts);
+
+            if (detectedArea) {
+              selectArea(detectedArea, true);
+              status.className = "voice-status detected";
+              status.textContent = `✓ Área detectada: ${detectedArea} ("${rawUsed}")`;
+            } else if (!status.classList.contains("detected")) {
+              status.className = "voice-status";
+              status.textContent = `Transcrito: "${rawUsed}"`;
+            }
+
+            if (cleanedText) {
+              finalizedSessionSegments.push(cleanedText);
+            }
+          } else {
+            interimTranscript += result[0].transcript;
+          }
         }
 
-        const textarea = document.getElementById("occInput");
-        const existing = textarea.value.trim();
-        textarea.value = existing ? `${existing}. ${cleanedText}` : cleanedText;
+        let liveInterimFormatted = "";
+        if (interimTranscript.trim()) {
+          liveInterimFormatted = convertSpokenTagsAndNumbers(
+            applyCustomDict(interimTranscript.trim())
+          );
+          if (!status.classList.contains("detected")) {
+            status.className = "voice-status";
+            status.textContent = `🎙️ Ouvindo: "${interimTranscript.trim()}"`;
+          }
+        }
+
+        textarea.value = composeSessionTextarea(liveInterimFormatted);
       };
 
       recognition.onerror = (event) => {
+        if (event.error === "no-speech" && !userStoppedRecording) {
+          return;
+        }
+        if (event.error === "aborted") {
+          return;
+        }
+        userStoppedRecording = true;
         status.className = "voice-status";
         status.textContent = `Erro no microfone: ${event.error}. Tente novamente.`;
       };
 
       recognition.onend = () => {
-        isRecording = false;
-        btn.classList.remove("recording");
-        btn.textContent = "🎙️ Transcrever fala";
+        if (!userStoppedRecording) {
+          setTimeout(() => {
+            if (!userStoppedRecording) {
+              try {
+                startRecognitionInstance();
+              } catch (e) {
+                finishVoiceSession();
+              }
+            }
+          }, 150);
+          return;
+        }
+        finishVoiceSession();
       };
 
-      recognition.start();
+      try {
+        recognition.start();
+      } catch (e) {
+        finishVoiceSession();
+      }
+    }
+
+    function finishVoiceSession() {
+      isRecording = false;
+      const btn = document.getElementById("voiceBtn");
+      const textarea = document.getElementById("occInput");
+      btn.classList.remove("recording");
+      btn.textContent = "🎙️ Transcrever fala";
+      textarea.value = composeSessionTextarea("");
     }
 
     // =========================================================
-    // 8. GERENCIAMENTO DE OCORRÊNCIAS E EXPORTAÇÃO
+    // 9. GERENCIAMENTO DE OCORRÊNCIAS E EXPORTAÇÃO
     // =========================================================
     function addOccurrence() {
+      if (isRecording && recognition) {
+        userStoppedRecording = true;
+        recognition.stop();
+        finishVoiceSession();
+      }
+
       const area = state.selectedArea;
       const textarea = document.getElementById("occInput");
       let text = textarea.value.trim();
 
       if (!area) {
-        alert("Selecione uma Área na Etapa 1 (ou fale o nome da área no microfone).");
+        alert("Selecione uma Área na Etapa 1 (ou fale o nome da área na transcrição).");
         return;
       }
       if (!text) {
@@ -1525,6 +2067,10 @@
       });
 
       textarea.value = "";
+      const status = document.getElementById("voiceStatus");
+      status.className = "voice-status";
+      status.textContent = "Fale a área primeiro para selecionar automaticamente";
+
       saveState();
       renderAreaSection();
       renderOccurrences();
